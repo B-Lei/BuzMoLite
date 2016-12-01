@@ -3,7 +3,6 @@ package BuzMo.GUI;
 import BuzMo.Database.DatabaseException;
 import BuzMo.Database.User;
 import BuzMo.Logger.Logger;
-import javax.swing.*;
 import java.sql.Connection;
 import java.util.Scanner;
 
@@ -13,7 +12,7 @@ import static java.lang.System.exit;
  * Created by Ben on 11/26/2016.
  * This is what the GUI calls - the initial login window that leads to all other windows 
  */
-public class LoginWindow extends JFrame {
+public class LoginWindow {
     private Logger log;
     private Connection connection;
 
