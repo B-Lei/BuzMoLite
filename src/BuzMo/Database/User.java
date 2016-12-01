@@ -98,10 +98,8 @@ public class User extends DatabaseObject{
 
         String sql;
         try {
-            System.out.println("exists before"+ email);
             sql = "SELECT COUNT(1) FROM Users WHERE email_address = " + addTicks(email);
             st.execute(sql);
-            System.out.println("exists after"+ sql);
 
             ResultSet res = st.getResultSet();
             res.next();
@@ -212,7 +210,7 @@ public class User extends DatabaseObject{
     public static String getPassword(Logger log, Connection connection, String email) throws DatabaseException{
         Statement st = getSt(connection, log);
 
-        String sql = "SELECT password FROM USERS WHERE email_address="+email;
+        String sql = "SELECT password FROM USERS WHERE email_address="+addTicks(email);
 
         String response = "";
 

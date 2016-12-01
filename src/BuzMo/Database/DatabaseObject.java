@@ -29,12 +29,9 @@ public class DatabaseObject {
     //Surrounds a string with ticks
     static String addTicks(String original){
         if(original.charAt(0) == '\'') {
-            //System.out.println("didn't add ticks to "+original);
             return original;
         }
-
-        //original = original.replace("@", "{@}");
-
+        
         String response = "'"+original+"'";
         //System.out.println("added ticks to "+original);
         return response;
