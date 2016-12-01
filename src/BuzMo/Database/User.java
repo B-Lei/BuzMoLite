@@ -98,8 +98,10 @@ public class User extends DatabaseObject{
 
         String sql;
         try {
+            System.out.println("exists before"+ email);
             sql = "SELECT COUNT(1) FROM Users WHERE email_address = " + addTicks(email);
             st.execute(sql);
+            System.out.println("exists after"+ sql);
 
             ResultSet res = st.getResultSet();
             res.next();
