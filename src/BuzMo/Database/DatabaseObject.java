@@ -33,7 +33,7 @@ public class DatabaseObject {
             return original;
         }
 
-        original = original.replace("@", "{@}");
+        //original = original.replace("@", "{@}");
 
         String response = "'"+original+"'";
         //System.out.println("added ticks to "+original);
