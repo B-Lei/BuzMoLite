@@ -26,10 +26,12 @@ public class LoginWindow {
         String usernameInput;
         System.out.print("ENTER USERNAME (EMAIL): ");
         usernameInput = userInput.next();
+        System.out.println("Detected input: "+usernameInput);
 
         String passwordInput;
         System.out.print("ENTER PASSWORD: ");
         passwordInput = userInput.next();
+        System.out.println("Detected input: "+passwordInput);
 
         try{
             Boolean exists = User.exists(connection, usernameInput);
