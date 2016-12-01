@@ -51,7 +51,7 @@ public class LoginWindow {
                 log.Log("LoginWindow -- Invalid password entered!");
             }
         } catch(Exception except){
-            System.out.println("LoginWindow -- EXCEPTION CAUGHT!");
+            System.out.println("LoginWindow -- EXCEPTION CAUGHT: "+except.getMessage());
             log.Log("LoginWindow -- Error: "+except.getMessage());
         }
 
