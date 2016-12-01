@@ -28,13 +28,13 @@ public class DatabaseObject {
 
     //Surrounds a string with ticks
     static String addTicks(String original){
-        if(original.charAt(0) == '\'') {
+        if(original.charAt(0) == '\"') {
             System.out.println("didn't add ticks to "+original);
             return original;
         }
 
 
-        String response = "'"+original+"'";
+        String response = '"'+original+'"';
         System.out.println("added ticks to "+original);
         return response;
     }
