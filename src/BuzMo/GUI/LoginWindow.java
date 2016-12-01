@@ -39,14 +39,13 @@ public class LoginWindow {
         System.out.print("ENTER USERNAME (EMAIL): ");
         usernameInput = userInput.next();
 
+        //Check for exit
+        if(usernameInput.contentEquals("exit"))
+            return true;
+
         String passwordInput;
         System.out.print("ENTER PASSWORD: ");
         passwordInput = userInput.next();
-
-        //Check if keyword exit
-        if(usernameInput.contentEquals("exit") || passwordInput.contentEquals("exit")){
-            return true;
-        }
 
         try{
             Boolean exists = User.exists(connection, usernameInput);
