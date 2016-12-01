@@ -24,11 +24,11 @@ public class LoginWindow {
         Scanner userInput = new Scanner(System.in);
 
         String usernameInput;
-        System.out.print("Enter username (email): ");
+        System.out.print("ENTER USERNAME (EMAIL): ");
         usernameInput = userInput.next();
 
         String passwordInput;
-        System.out.print("Enter password: ");
+        System.out.print("ENTER PASSWORD: ");
         passwordInput = userInput.next();
 
         try{
@@ -36,6 +36,7 @@ public class LoginWindow {
 
             //Check if user exists
             if(!exists){
+                System.out.println("LoginWindow -- Invalid username entered!");
                 log.Log("LoginWindow -- Invalid username entered!");
             }
 
@@ -46,12 +47,15 @@ public class LoginWindow {
                 new MainMenu(log, usernameInput);
             }
             else {
+                System.out.println("LoginWindow -- Invalid password entered!");
                 log.Log("LoginWindow -- Invalid password entered!");
             }
         } catch(Exception except){
+            System.out.println("LoginWindow -- EXCEPTION CAUGHT!");
             log.Log("LoginWindow -- Error: "+except.getMessage());
         }
 
+        System.out.println("GUI -- LoginWindow properly loaded");
         log.Log("GUI -- LoginWindow properly loaded");
     }
 }

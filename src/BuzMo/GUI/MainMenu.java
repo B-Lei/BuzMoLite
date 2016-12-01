@@ -56,7 +56,7 @@ public class MainMenu {
 //        // mainMenu.pack(); // Packs the gridlayout compactly
 //        mainMenu.setVisible(true);
 //        handleButtonAction(log, yourUsername);
-
+        System.out.println("MAINMENU PROPERLY LOADED");
         log.Log("GUI -- MainMenu properly loaded");
     }
 
