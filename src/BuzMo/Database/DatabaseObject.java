@@ -30,7 +30,9 @@ public class DatabaseObject {
     static String addTicks(String original){
         if(original.charAt(0) == '\'')
             return original;
-        return "'"+original+"'";
+
+        String response = "'"+original+"'";
+        return response;
     }
 
     static Statement getSt(Connection c, Logger log){
