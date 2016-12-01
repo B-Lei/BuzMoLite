@@ -31,7 +31,7 @@ public class DatabaseObject {
         if(original.charAt(0) == '\'') {
             return original;
         }
-        
+
         String response = "'"+original+"'";
         //System.out.println("added ticks to "+original);
         return response;

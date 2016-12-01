@@ -36,10 +36,12 @@ public class MessageTopicWords extends DatabaseObject{
 
             //Get results
             ResultSet rs = st.getResultSet();
-            st.close();
             while(rs.next()){
                 response.add(rs.getString(1));
             }
+
+            rs.close();
+            st.close();
         } catch (SQLException e) {
             log.bSQL(sql);
             throw new DatabaseException(e);
