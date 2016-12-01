@@ -13,25 +13,40 @@ import static java.lang.System.exit;
  * This is what the GUI calls - the initial login window that leads to all other windows 
  */
 public class LoginWindow {
+    enum login{QUIT, SUCCESS};
+
     private Logger log;
     private Connection connection;
+    private Scanner userInput = new Scanner(System.in);
 
     public LoginWindow(Logger log, Connection connection) {
         // Hook up logger to GUI
         this.log = log;
         this.connection = connection;
 
-        Scanner userInput = new Scanner(System.in);
+        while(!display()){
+            //Log each try
+            log.Log("invalid login entry");
+        }
 
+        userInput.close();
+    }
+
+    //Prompts for username and password
+    //If keyword exit is entered, quits
+    private boolean display(){
         String usernameInput;
         System.out.print("ENTER USERNAME (EMAIL): ");
         usernameInput = userInput.next();
-        System.out.println("Detected input: "+usernameInput);
 
         String passwordInput;
         System.out.print("ENTER PASSWORD: ");
         passwordInput = userInput.next();
-        System.out.println("Detected input: "+passwordInput);
+
+        //Check if keyword exit
+        if(usernameInput.contentEquals("exit") || passwordInput.contentEquals("exit")){
+            return true;
+        }
 
         try{
             Boolean exists = User.exists(connection, usernameInput);
@@ -40,6 +55,7 @@ public class LoginWindow {
             if(!exists){
                 System.out.println("LoginWindow -- Invalid username entered!");
                 log.Log("LoginWindow -- Invalid username entered!");
+                return false;
             }
 
             // If login successful, bring up a new Main Menu and dispose of the current window
@@ -51,13 +67,15 @@ public class LoginWindow {
             else {
                 System.out.println("LoginWindow -- Invalid password entered!");
                 log.Log("LoginWindow -- Invalid password entered!");
+                return false;
             }
         } catch(Exception except){
             System.out.println("LoginWindow -- EXCEPTION CAUGHT: "+except.getMessage());
             log.Log("LoginWindow -- Error: "+except.getMessage());
         }
 
-        System.out.println("GUI -- LoginWindow properly loaded");
         log.Log("GUI -- LoginWindow properly loaded");
+        return true;
     }
+
 }
