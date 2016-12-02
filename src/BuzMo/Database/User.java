@@ -238,7 +238,6 @@ public class User extends DatabaseObject{
         Statement st = getSt(connection, log);
 
         String sql = "SELECT isManager FROM USERS WHERE email_address="+addTicks(email);
-        System.out.println("ISMANAGER STATUS: "+sql);
 
         String response = "";
         int newResponse = -1;
