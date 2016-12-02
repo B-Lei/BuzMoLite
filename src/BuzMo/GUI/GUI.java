@@ -4,6 +4,7 @@ import BuzMo.Database.Database;
 import BuzMo.Logger.Logger;
 
 import java.sql.Connection;
+import java.util.Scanner;
 
 /**
  * Created by Lucas Lopilato on 11/25/2016.
@@ -11,7 +12,8 @@ import java.sql.Connection;
  */
 public class GUI {
     public GUI(Logger log, Database database) {
-        new LoginWindow(log, database.getConnection());
+        //new LoginWindow(log, database.getConnection());
+        new MainMenu(new Scanner(System.in), log, database.getConnection(), "JeffBezos@yahoo.com");
         log.Log("GUI Properly Loaded");
     }
 }

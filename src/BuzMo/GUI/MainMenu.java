@@ -27,12 +27,39 @@ public class MainMenu extends View {
         o.write("BuzMo Main Menu");
         o.writeLine();
 
+        o.write("Enter the Number of Your Selection");
+        o.write("Enter exit to exit");
+
+
         o.setAlignment(GUIOutput.ALIGN.LEFT);
-        o.write("MyCircle: View Your MyCircle Feed"); //Views the MyCircle Feed
-        o.write("ChatGroups: View Your Chatgroups"); //Handles all chatgroup operations
-        o.write("Conversations: View All Current Conversations");
-        o.write("Messages: View All Of Your Messages"); //Could be the same as above
-        o.write("Conversations");
+        o.write("1: View Your MyCircle Feed"); //Views the MyCircle Feed
+        o.write("2: View Your Chatgroups"); //Handles all chatgroup operations
+        o.write("3: View All Current Conversations");
+        o.write("4: Create Conversation");
+
+        String in="";
+        while(!in.contentEquals("exit")){
+            in = scanner.next();
+            if(in.length() == 1){
+                Integer selection = new Integer(in);
+                switch(selection){
+                    //Existing Conversations
+                    case 1:
+                        new ExistingConvos2(scanner, log, connection, yourUsername);
+                        break;
+                    //Chatgroups
+                    case 2:
+                        break;
+                    //Private Conversations
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+
+                }
+
+            }
+        }
     }
 
 
