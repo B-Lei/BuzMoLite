@@ -121,7 +121,7 @@ public class MessageHandler extends DatabaseObject{
                 return Insert.NOEXIST_USR;
             }
 
-            if(MessageHandler.exists(log, connection, messageID)){
+            if(!MessageHandler.exists(log, connection, messageID)){
                 log.Log("Couldn't create statement in isnert");
                 return Insert.INVALID;
             }
