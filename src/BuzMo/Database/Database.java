@@ -6,8 +6,6 @@ import BuzMo.Properties.PropertiesException;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import oracle.jdbc.pool.OracleDataSource;
 
-import javax.sql.DataSource;
-import java.io.Console;
 import java.sql.*;
 import java.util.Vector;
 

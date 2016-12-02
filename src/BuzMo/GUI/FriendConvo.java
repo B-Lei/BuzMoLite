@@ -3,7 +3,6 @@ package BuzMo.GUI;
 import BuzMo.Database.*;
 import BuzMo.Logger.Logger;
 
-import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.util.Scanner;
 import java.util.Vector;
@@ -93,12 +92,13 @@ public class FriendConvo extends View{
     }
 
     private void display(){
-        o.empty(5);
         loadPosts();
         o.setAlignment(GUIOutput.ALIGN.CENTER);
         o.writeLine();
         o.writeLine();
+        o.empty();
         o.write("Current conversations with "+this.friend);
+        o.empty();
         o.writeLine();
         o.setAlignment(GUIOutput.ALIGN.LEFT);
         for(Message m: messages){
