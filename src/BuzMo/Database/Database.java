@@ -32,12 +32,10 @@ public class Database {
     private MysqlDataSource Msource = null;
 
 
-
-
-
-
-
-    //Choose which URL to use depending on where you are running the program
+    public static BuzMo.Database.Database getInstance() {
+        return instance;
+    }
+//Choose which URL to use depending on where you are running the program
     //private String url = "jdbc:oracle:thin:@uml.cs.ucsb.edu:1521:xe";
     //private String url = "jdbc:oracle:thin:@uml.cs.ucsb.edu:1521:xe";
 

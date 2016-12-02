@@ -35,11 +35,7 @@ public class BuzMo {
                 exit(1);
             }
 
-            //Load Database Connector
             db = Database.getInstance();
-            if(db == null){
-                exit(1);
-            }
 
             //Load GUI
             gui = new GUI(log, db);

@@ -30,7 +30,7 @@ public class CreateNewConvo2 extends View {
 
                 s = scanner.next();
                 if(friends.contains(s)){
-                    new FriendConvo(scanner, yourUsername, s);
+                    new FriendConvo(scanner,log, connection, yourUsername, s);
                 }
             }
         }catch(Exception e){
