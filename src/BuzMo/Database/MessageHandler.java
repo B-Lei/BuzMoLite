@@ -254,7 +254,23 @@ public class MessageHandler extends DatabaseObject{
 
         return response;
     }
+
+    //Drops a users private post
+    public void dropPrivatePost(String owner, Integer id){
+        String sql = "DELETE From Messages WHERE owner="+addTicks(owner)+" AND message_id="+id;
+        try{
+            Statement st = connection.createStatement();
+            st.execute(sql);
+            log.gSQL(sql);
+
+        }catch(Exception e){
+            log.bSQL(sql);
+        }
+    }
 }
+
+
+
 
 
 

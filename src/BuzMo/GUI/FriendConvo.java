@@ -41,7 +41,7 @@ public class FriendConvo extends View{
                 try {
                     Integer response = new Integer(in);
                     switch (response) {
-                        case (1):
+                        case (1): //Add a new private post between the two
                             Database db = Database.getInstance();
                             Vector<String> recipient = new Vector<>();
                             recipient.add(friendUsername);
@@ -51,7 +51,10 @@ public class FriendConvo extends View{
 
                             handler.insertPrivateMsg(db.getNewMsg(), yourUsername, message, recipient);
                             break;
-                        case (2):
+                        case (2): //Delete a post
+                            o.write("Insert MessageID you wish to delete: ");
+                            int input = new Integer(scanner.next());
+                            msg.dropPrivatePost(yourUsername,input );
                             break;
                         case (3):
                             break;
