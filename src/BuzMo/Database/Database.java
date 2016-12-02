@@ -133,12 +133,12 @@ public class Database {
     //Gets
     public int getNewMsg(){
         newMsg++;
-        return newMsg - 1;
+        return newMsg;
     }
 
     public int getNewGroup(){
         newGroup++;
-        return newGroup -1;
+        return newGroup;
     }
 
     public Connection getConnection(){
