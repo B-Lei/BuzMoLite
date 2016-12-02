@@ -23,7 +23,7 @@ public class ExistingConvos2 extends View{
         super(scanner, log, connection, user);
         try {
             this.handler = new MessageHandler(log, connection);
-            this.friends = handler.getPrivateUserMessages(user);
+            this.friends = handler.getUsersWhoMessaged(user);
 
             o.setAlignment(GUIOutput.ALIGN.CENTER);
             o.writeLine();

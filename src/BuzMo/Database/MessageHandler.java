@@ -185,7 +185,7 @@ public class MessageHandler extends DatabaseObject{
     }
 
 
-    public Vector<String> getPrivateUserMessages(String email) throws DatabaseException {
+    public Vector<String> getUsersWhoMessaged(String email) throws DatabaseException {
 
         //Get Users you have sent a message
         Vector<String> response = new Vector<>();
@@ -226,7 +226,37 @@ public class MessageHandler extends DatabaseObject{
 
             return response;
         }
+
+    public Vector<Message> getPrivateMessagesBetween(String owner, String other) throws DatabaseException{
+        //Get Users you have sent a message
+        Vector<Message> response = new Vector<>();
+
+        String sql = "SELECT message_id, message FROM Messages NATURAL JOIN MessageReceivers" +
+                "WHERE owner=" + addTicks(owner) + " AND (sender="+addTicks(other)+ " OR recipient="+addTicks(other)+")";
+
+        try{
+            Statement st = connection.createStatement();
+            st.execute(sql);
+            log.gSQL(sql);
+
+            ResultSet rs = st.getResultSet();
+            while(rs.next()){
+                response.add(new Message(rs.getInt(1), rs.getString(2)));
+            }
+
+            rs.close();
+            st.close();
+
+        }catch(Exception e){
+            log.bSQL(sql);
+            throw new DatabaseException(e);
+        }
+
+        return response;
     }
+}
+
+
 
 
         //Get all users who you have sent a private message or they sent you one
