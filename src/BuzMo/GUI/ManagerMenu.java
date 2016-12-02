@@ -1,6 +1,9 @@
 package BuzMo.GUI;
 
+import BuzMo.Database.ChatGroupInvites;
+import BuzMo.Database.ChatGroups;
 import BuzMo.Database.User;
+import BuzMo.Database.UserTopicWords;
 import BuzMo.Logger.Logger;
 
 import java.sql.Connection;
@@ -16,10 +19,16 @@ import java.util.Vector;
  * 4) generate a report of all 3
  */
 public class ManagerMenu extends View {
+    private UserTopicWords userTopicWords;
 
     ManagerMenu(Scanner scanner, Logger log, Connection connection, String yourUsername) {
         super(scanner, log, connection, yourUsername);
-
+        try {
+            userTopicWords = new UserTopicWords(log, connection);
+        } catch(Exception except) {
+            System.out.println("ManagerMenu -- EXCEPTION CAUGHT: "+except.getMessage());
+            log.Log("ManagerMenu -- Error: "+except.getMessage());
+        }
         o.empty();
         boolean isManager = checkManagerStatus();
         if (isManager) {
@@ -180,7 +189,7 @@ public class ManagerMenu extends View {
         return result;
     }
 
-    // THIS IS A STUB -- ADD APPROPRIATE SQL QUERIES
+    // NEEDS SQL FOR TIMESTAMP AND MATCHING # MSGS
     // Helper function used in searchUsers to call the correct SQL query
     private Vector<String> handleQuery(int inputType, String inputString) {
         Vector<String> result = new Vector<String>();
@@ -188,9 +197,11 @@ public class ManagerMenu extends View {
             switch (inputType) {
                 case 0:
                     // SQL query for Users with matching topicWords
+                    result = userTopicWords.getUsersWithTopicWord(inputString);
                     break;
                 case 1:
                     // SQL query for Users with matching email
+                    result = User.getUsersWithEmail(log, connection, inputString);
                     break;
                 case 2:
                     // NEED TO BREAK TIMESTAMP UP INTO COMPONENTS!
@@ -201,7 +212,7 @@ public class ManagerMenu extends View {
                         System.out.println("Invalid Timestamp format entered");
                         log.Log("Invalid Timestamp format entered");
                     }
-                    // SQL query for Users with matching message timestamps
+                    // ADD: SQL query for Users with matching message timestamps
                     else {
                         try {
                             // Unconfirmed if this works or not
@@ -217,14 +228,14 @@ public class ManagerMenu extends View {
                     }
                     break;
                 case 3:
-                    // SQL query for Users with a matching # of messages in the past 7 days
+                    // ADD: SQL query for Users with a matching # of messages in the past 7 days
                     break;
                 default:
                     System.out.println("This shouldn't even be possible");
             }
         } catch (Exception except) {
-            System.out.println("Exception occurred while performing a single handleQuery");
-            log.Log("ManagerMenu -- Exception occurred while performing a single handleQuery");
+            System.out.println("Exception occurred while performing a single handleQuery: "+except.getMessage());
+            log.Log("ManagerMenu -- Exception occurred while performing a single handleQuery: "+except.getMessage());
         }
         return result;
     }

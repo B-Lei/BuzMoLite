@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 
 /**
  * Created by lucas on 11/28/2016.
@@ -263,7 +264,32 @@ public class User extends DatabaseObject{
 
     }
 
+    //Get user_id matching the input email
+    public static Vector<String> getUsersWithEmail(Logger log, Connection connection, String email) throws DatabaseException {
 
+        Statement st = getSt(connection, log);
+        String sql = "SELECT email_address FROM users WHERE email_address="+addTicks(email);
+
+        Vector<String> response = new Vector<>();
+
+        try {
+            st.execute(sql);
+
+            //Get results
+            ResultSet rs = st.getResultSet();
+            while(rs.next()){
+                response.add(rs.getString(1));
+            }
+
+            rs.close();
+            st.close();
+        } catch (SQLException e) {
+            log.Log("Invalid SQL: "+sql);
+            throw new DatabaseException(e);
+        }
+
+        return response;
+    }
 
 
 
