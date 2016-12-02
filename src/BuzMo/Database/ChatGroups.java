@@ -114,7 +114,7 @@ public class ChatGroups extends DatabaseObject{
     }
 
     public Integer getMsgId(Logger log,Connection connection,String name) throws DatabaseException{
-        String sql = "SELECT msg_id FROM  ChatGroups WHERE group_name="+addTicks(name);
+        String sql = "SELECT message_id FROM  ChatGroups WHERE group_name="+addTicks(name);
 
         Integer response = -1;
         try{

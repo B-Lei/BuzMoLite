@@ -117,7 +117,7 @@ class CreateDatabase {
         String ChatGroups = "CREATE TABLE ChatGroups(" +
                 "owner VARCHAR(20)," +
                 "group_name VARCHAR(20)," +
-                "msg_id INTEGER," +
+                "message_id INTEGER," +
                 "duration INTEGER," +
                 "PRIMARY KEY (group_name)," +
                 "FOREIGN KEY(owner) REFERENCES Users(email_address))";
