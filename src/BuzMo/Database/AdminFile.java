@@ -23,6 +23,22 @@ public class AdminFile extends DatabaseObject{
     }
 
 
+    public int getNextGroup(){
+        String sql = "SELECT group_id FROM admin where instance='Main'";
+        int response = -1;
+        Statement st = runSQL(log,connection, sql);
+        try{
+            ResultSet rs = st.getResultSet();
+            rs.next();
+            response=rs.getInt(1);
+        } catch (SQLException e) {
+            log.Log("Error getting next group in Admin");
+        }
+
+        sql = "UPDATE admin set group_id="+response+1+" where instance='Main'";
+        return response;
+    }
+
     public int getNextMessage(){
         String sql = "SELECT message_id FROM admin where instance='Main'";
         int response = -1;
@@ -34,7 +50,10 @@ public class AdminFile extends DatabaseObject{
         } catch (SQLException e) {
             log.Log("Error getting next message in Admin");
         }
+
+        sql = "UPDATE admin set message_id="+response+1+" where instance='Main'";
         return response;
     }
+
 
 }

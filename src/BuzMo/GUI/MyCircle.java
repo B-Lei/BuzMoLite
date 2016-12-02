@@ -10,7 +10,13 @@ import java.util.Scanner;
  */
 public class MyCircle extends View {
     public MyCircle(Scanner scanner, Logger log, Connection connection, String yourUsername) {
+
+
         super(scanner, log, connection, yourUsername);
+
+
+
+
     }
 
 

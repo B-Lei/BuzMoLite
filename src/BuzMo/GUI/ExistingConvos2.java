@@ -32,7 +32,7 @@ public class ExistingConvos2 extends View{
                 display(user);
                 s = scanner.next();
                 if (friends.contains(s)) {
-                    new FriendConvo(scanner,log, connection,  user, s);
+                    new FriendConvo(scanner,log, connection,  yourUsername, s);
                 }
             }
         } catch (Exception e) {
