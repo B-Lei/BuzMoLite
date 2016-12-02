@@ -49,7 +49,7 @@ public class ExistingConvos {
     public void handleFriendClick(JButton newButton, String yourUsername, String friendUsername) {
         newButton.addActionListener(
                 (ActionEvent e) -> {
-                    new FriendConvo(log, yourUsername, friendUsername);
+                    //new FriendConvo(scanner, log, yourUsername, friendUsername);
                     ExistingConvoWindow.dispose();
                 }
         );
