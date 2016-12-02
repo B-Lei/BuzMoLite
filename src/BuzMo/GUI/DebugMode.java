@@ -56,10 +56,10 @@ public class DebugMode extends View {
                 timeStamp.copyInto(tempTimeStamp);
 
                 // Combine to form AM and PM in index 6
-                String str = timeStamp.elementAt(5);
+                String str = timeStamp.elementAt(4);
                 str = str.substring(0, 1);
                 String ampm = str.substring(Math.max(str.length() - 2, 0));
-                timeStamp.setElementAt(str, 5);
+                timeStamp.setElementAt(str, 4);
                 timeStamp.add(ampm);
                 for (int i=0; i<timeStamp.size()-1; i++) {
                     System.out.println("Found final component: "+timeStamp.elementAt(i));
