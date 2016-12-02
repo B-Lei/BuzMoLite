@@ -268,7 +268,7 @@ public class User extends DatabaseObject{
     public static Vector<String> getUsersWithEmail(Logger log, Connection connection, String email) throws DatabaseException {
 
         Statement st = getSt(connection, log);
-        String sql = "SELECT email_address FROM users WHERE email_address="+email;
+        String sql = "SELECT email_address FROM users WHERE email_address="+addTicks(email);
 
         Vector<String> response = new Vector<>();
 
