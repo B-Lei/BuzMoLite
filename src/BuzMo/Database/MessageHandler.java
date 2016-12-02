@@ -1,6 +1,8 @@
 package BuzMo.Database;
 
+import BuzMo.GUI.ExistingConvos;
 import BuzMo.Logger.Logger;
+import com.sun.xml.internal.ws.spi.db.DatabindingException;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -170,7 +172,70 @@ public class MessageHandler extends DatabaseObject{
     //Get all users who you have sent a private message or they sent you one
     public Vector<String> getPrivateUserMessages(String email) throws DatabaseException{
         Vector<String> response = new Vector<>();
-        String sql;
+
+        //Get Users you have sent a message
+        String sql = "SELECT message_id FROM messages WHERE is_Public=0 AND sender="+addTicks(email);
+        Vector<Integer> messages = new Vector<>();
+
+        try{
+            Statement st = connection.createStatement();
+            st.execute(sql);
+            ResultSet rs = st.getResultSet();
+
+            while(rs.next()){
+                messages.add(rs.getInt(1));
+            }
+
+            log.gSQL(sql);
+            rs.close();
+
+            for(Integer i: messages) {
+                sql = "SELECT recipient FROM MessageReceivers WHERE message_id=" + i;
+                st.execute(sql);
+                log.gSQL(sql);
+                rs = st.getResultSet();
+                rs.next();
+                response.add(rs.getString(1));
+
+                rs.close();
+            }
+
+
+            //Collect all messages you have received from other users
+            sql = "SELECT message_id FROM MessageReceivers WHERE recipient="+addTicks(email);
+            st.execute(sql);
+            log.gSQL(sql);
+
+            rs = st.getResultSet();
+            messages = new Vector<>();
+
+            while(rs.next()){
+                messages.add(rs.getInt(1));
+            }
+            rs.close();
+
+            for(Integer i: messages) {
+                //Find all Users that sent the messages to you
+                sql = "SELECT email_address FROM Users WHERE message_id=" +i;
+                st.execute(sql);
+                log.gSQL(sql);
+
+                rs = st.getResultSet();
+                rs.next();
+                response.add(rs.getString(1));
+                rs.close();
+            }
+            st.close();
+
+        }catch(Exception e){
+            log.bSQL(sql);
+            throw new DatabaseException(e);
+        }
+
+
+
+
+
 
 
         return response;

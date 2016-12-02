@@ -4,6 +4,7 @@ import BuzMo.Logger.Logger;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
 import java.util.Scanner;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Scanner;
 public class MainMenu extends View {
 
     MainMenu(Scanner scanner, Logger log, Connection connection, String yourUsername) {
-        super(log, connection); 
+        super(scanner, log, connection, yourUsername); 
 
         writeMenu();
 
@@ -22,16 +23,16 @@ public class MainMenu extends View {
 
     //outputs for the main menu
     private void writeMenu(){
-        write.setAlignment(GUIOutput.ALIGN.CENTER);
-        write.write("BuzMo Main Menu");
-        write.writeLine();
+        o.setAlignment(GUIOutput.ALIGN.CENTER);
+        o.write("BuzMo Main Menu");
+        o.writeLine();
 
-        write.setAlignment(GUIOutput.ALIGN.LEFT);
-        write.write("MyCircle: View Your MyCircle Feed"); //Views the MyCircle Feed
-        write.write("ChatGroups: View Your Chatgroups"); //Handles all chatgroup operations
-        write.write("Conversations: View All Current Conversations");
-        write.write("Messages: View All Of Your Messages"); //Could be the same as above
-        write.write("Conversations");
+        o.setAlignment(GUIOutput.ALIGN.LEFT);
+        o.write("MyCircle: View Your MyCircle Feed"); //Views the MyCircle Feed
+        o.write("ChatGroups: View Your Chatgroups"); //Handles all chatgroup operations
+        o.write("Conversations: View All Current Conversations");
+        o.write("Messages: View All Of Your Messages"); //Could be the same as above
+        o.write("Conversations");
     }
 
 
