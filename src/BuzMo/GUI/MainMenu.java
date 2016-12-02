@@ -17,6 +17,7 @@ public class MainMenu extends View {
         super(scanner, log, connection, yourUsername); 
 
         writeMenu();
+        takeInput();
 
         log.Log("GUI -- MainMenu properly loaded");
     }
@@ -41,7 +42,9 @@ public class MainMenu extends View {
         o.write("7: Use Manager Functions");
         o.write("8: Log in or Log out as Manager");
         o.write("9: Edit BuzMo Time");
+    }
 
+    public void takeInput() {
         String in="";
         while(!in.contentEquals("exit")){
             in = scanner.next();
@@ -58,6 +61,7 @@ public class MainMenu extends View {
                     case 3:
                         new ExistingConvos2(scanner, log, connection, yourUsername);
                         break;
+                    //Create Conversation
                     case 4:
                         break;
                     // Create a ChatGroup
@@ -80,6 +84,4 @@ public class MainMenu extends View {
             }
         }
     }
-
-
 }
