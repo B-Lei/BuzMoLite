@@ -22,9 +22,10 @@ public class FriendConvo extends View{
 
 
         String in = "";
-        o.setAlignment(GUIOutput.ALIGN.LEFT);
         while(!in.contentEquals("exit")){
             display();
+
+            o.setAlignment(GUIOutput.ALIGN.LEFT);
             in = scanner.next();
             log.Log("Read "+in+" in scanner");
             if(in.length() == 1){
