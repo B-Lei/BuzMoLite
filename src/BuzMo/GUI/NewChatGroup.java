@@ -1,6 +1,11 @@
 package BuzMo.GUI;
 
+import BuzMo.Database.ChatGroups;
 import BuzMo.Logger.Logger;
+
+import java.sql.Connection;
+import java.util.Scanner;
+import java.util.Vector;
 
 /**
  * Created by Ben on 11/27/2016.
@@ -12,7 +17,7 @@ public class NewChatGroup extends View {
         super(scanner, log, connection, yourUsername);
         
         writeOpeningText();
-        white(!handleInput()) {
+        while(!handleInput()) {
             log.Log("Invalid ChatGroup creation");
         }
 
@@ -33,7 +38,7 @@ public class NewChatGroup extends View {
         String chatGroupName = scanner.next();
 
         System.out.print("ENTER A LIST OF NEW MEMBERS, SEPARATED BY COMMA: ");
-        String chatGroupName = scanner.next();
+        chatGroupName = scanner.next();
         String temp[] = chatGroupName.split(",");
         newMemberList.copyInto(temp);
 
@@ -49,7 +54,7 @@ public class NewChatGroup extends View {
                 return false;
             }
         
-            ChatGroups.insertGroupAndUsers(yourUsername, chatGroupName, messageDuration, newMemberList);
+            //ChatGroups.insertGroupAndUsers(yourUsername, chatGroupName, messageDuration, newMemberList);
         } catch(Exception except) {
             System.out.println("NewChatGroup -- EXCEPTION CAUGHT: "+except.getMessage());
             log.Log("NewChatGroup -- Error: "+except.getMessage());
