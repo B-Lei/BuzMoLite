@@ -176,9 +176,50 @@ public class MessageHandler extends DatabaseObject{
     }
 
 
+    public Vector<String> getPrivateUserMessages(String email) throws DatabaseException {
 
-    //Get all users who you have sent a private message or they sent you one
-    public Vector<String> getPrivateUserMessages(String email) throws DatabaseException{
+        //Get Users you have sent a message
+        Vector<String> response = new Vector<>();
+
+        String sql = "SELECT message_id FROM messages WHERE is_Public=0 AND owner="+addTicks(email);
+        Vector<Integer> messages = new Vector<>();
+
+        try{
+            Statement st = connection.createStatement();
+            st.execute(sql);
+            ResultSet rs = st.getResultSet();
+
+            while(rs.next()){
+                messages.add(rs.getInt(1));
+            }
+
+            log.gSQL(sql);
+            rs.close();
+
+            for(Integer i: messages) {
+                sql = "SELECT recipient FROM MessageReceivers WHERE message_id=" + i;
+                st.execute(sql);
+                log.gSQL(sql);
+                rs = st.getResultSet();
+                rs.next();
+
+                String current = rs.getString(1);
+                if (!response.contains(current))
+                    response.add(current);
+
+                rs.close();
+            }
+            }catch(Exception e){
+                throw new DatabaseException(e);
+            }
+
+            return response;
+        }
+    }
+
+
+        //Get all users who you have sent a private message or they sent you one
+    /*public Vector<String> getPrivateUserMessages(String email) throws DatabaseException{
         Vector<String> response = new Vector<>();
 
         //Get Users you have sent a message
@@ -244,15 +285,4 @@ public class MessageHandler extends DatabaseObject{
         }catch(Exception e){
             log.bSQL(sql);
             throw new DatabaseException(e);
-        }
-
-
-
-
-
-
-
-        return response;
-    }
-
-}
+        }*/
