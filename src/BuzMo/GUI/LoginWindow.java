@@ -23,8 +23,7 @@ public class LoginWindow {
         // Hook up logger to GUI
         this.log = log;
         this.connection = connection;
-
-        new ExistingConvos2(userInput,log, connection,"JeffBezos@yahoo.com");
+        //new ExistingConvos2(userInput,log, connection,"JeffBezos@yahoo.com");
 
         while(!display()){
             //Log each try
