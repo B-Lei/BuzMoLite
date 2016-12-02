@@ -70,8 +70,8 @@ public class FriendConvo extends View{
 
                             o.write("Insert Message: ");
                             String message = scanner.next();
-                            insert(message, yourUsername,yourUsername);
-                            insert(message,yourUsername, friendUsername);
+                            insert(message, yourUsername,yourUsername, friendUsername);
+                            insert(message,yourUsername, friendUsername, friendUsername);
 
 
                             //msg.insertPrivateMsg(admin.getNextMessage(), yourUsername, message, recipient);
@@ -153,10 +153,14 @@ public class FriendConvo extends View{
         }
     }
 
-    private void insert(String message, String sender, String owner){
+    private void insert(String message, String sender, String receiver, String owner){
+        int number = admin.getNextMessage();
         String sql = "INSERT INTO MESSAGES (message_id, sender, owner, message, timestamp, is_public VALUES(" +
-                admin.getNextMessage()+","+addTicks(sender)+","+ addTicks(owner)+","+addTicks(message)+","+Timestamp.getTimestamp()+")";
+                number+","+addTicks(sender)+","+ addTicks(owner)+","+addTicks(message)+","+Timestamp.getTimestamp()+")";
                 runSQL(log, connection, sql);
+
+        sql = "INSERT INTO messagereceivers (message_id, recipient) VALUES ("+number+","+addTicks(receiver);
+        runSQL(log, connection,sql);
     }
 
 
