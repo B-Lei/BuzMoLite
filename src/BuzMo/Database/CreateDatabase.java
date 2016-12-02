@@ -85,6 +85,7 @@ class CreateDatabase {
         String Messages = "CREATE TABLE Messages(" +
                 "message_id INTEGER," +
                 "sender VARCHAR(20)," +
+                "owner VARCHAR(20)," +
                 "message VARCHAR(1400)," +
                 "timestamp VARCHAR(30)," +
                 "is_public INTEGER DEFAULT 0," +

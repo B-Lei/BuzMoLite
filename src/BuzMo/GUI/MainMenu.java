@@ -45,13 +45,13 @@ public class MainMenu extends View {
                 switch(selection){
                     //Existing Conversations
                     case 1:
-                        new ExistingConvos2(scanner, log, connection, yourUsername);
                         break;
                     //Chatgroups
                     case 2:
                         break;
                     //Private Conversations
                     case 3:
+                        new ExistingConvos2(scanner, log, connection, yourUsername);
                         break;
                     case 4:
                         break;

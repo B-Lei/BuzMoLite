@@ -28,7 +28,7 @@ public class ExistingConvos2 extends View{
             o.setAlignment(GUIOutput.ALIGN.CENTER);
             o.writeLine();
             o.empty();
-            o.write("Your Messages");
+            o.write("Current Private Conversations");
             o.empty();
             o.writeLine();
 
