@@ -86,7 +86,7 @@ public class ChatGroups extends DatabaseObject{
             return Insert.DUPLICATE;
         }
 
-        String sql = "INSERT INTO chatgroups (owner, group_name, msg_id, duration) VALUES (" +
+        String sql = "INSERT INTO chatgroups (owner, group_name, message_id, duration) VALUES (" +
                 addTicks(owner) + "," + addTicks(name) + ","+ msg_id+ "," + duration + ")";
 
         try {
