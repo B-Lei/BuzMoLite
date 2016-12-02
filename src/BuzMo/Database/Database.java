@@ -11,6 +11,8 @@ import java.io.Console;
 import java.sql.*;
 import java.util.Vector;
 
+import static java.lang.System.exit;
+
 
 /**
  * Created by Lucas Lopilato on 11/25/2016.
@@ -20,6 +22,7 @@ import java.util.Vector;
  *
  */
 public class Database {
+    private static Database instance = new Database();
     private boolean CSIL = true;
 
     private Logger log = null;
@@ -31,16 +34,20 @@ public class Database {
     private OracleDataSource Osource = null;
     private MysqlDataSource Msource = null;
 
+    public static Database getInstance(){
+        return instance;
+    }
+
 
     //Choose which URL to use depending on where you are running the program
     //private String url = "jdbc:oracle:thin:@uml.cs.ucsb.edu:1521:xe";
     //private String url = "jdbc:oracle:thin:@uml.cs.ucsb.edu:1521:xe";
 
     //Initialize Database and Establish a connection
-    public Database(Logger log) throws DatabaseException {
+    private Database(){
 
         //Hook up the log to the JDBC Class
-        this.log = log;
+        this.log = Logger.getInstance();
 
         //Read in appropriate username and password
         String username;
@@ -52,7 +59,9 @@ public class Database {
             username = properties.getUsername();
             password = properties.getPassword();
         }catch(PropertiesException e){
-            throw new DatabaseException(e);
+            log.Log(e.getMessage());
+            e.printStackTrace();
+            return;
         }
 
         if(!CSIL) {
@@ -67,7 +76,9 @@ public class Database {
 
                 this.connection = Msource.getConnection();
             } catch (SQLException sql) {
-                throw new DatabaseException("Error establishing SQL connection", sql);
+                log.Log("error initializing database");
+                exit(1);
+                //throw new DatabaseException("Error establishing SQL connection", sql);
             }
             log.Log("MySQL Database properly loaded");
         }
@@ -79,14 +90,21 @@ public class Database {
                 this.connection = DriverManager.getConnection(url, username, password);
             }
             catch(Exception e){
-                log.Log("Error initializing oracle datasource");
-                throw new DatabaseException(e);
+                log.Log("Error initializing oracle datasource" + e.getMessage());
+                e.printStackTrace();
+
+                //throw new DatabaseException(e);
             }
 
             log.Log("Successfully loaded Oracle Database");
         }
 
-        CreateDatabase init = new CreateDatabase(log,connection, this);
+        try {
+            CreateDatabase init = new CreateDatabase(log, connection, this);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 

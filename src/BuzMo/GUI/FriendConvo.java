@@ -38,11 +38,38 @@ public class FriendConvo extends View{
         }
         o.writeLine();
         o.writeLine();
+        o.setAlignment(GUIOutput.ALIGN.CENTER);
+        o.write("Enter number for action you want to use or type exit");
+        o.write("1: Create New Post");
+        o.write("2: Delete a Post");
+        o.write("3: See More Messages");
+        o.write("4: Send ChatGroup Invite to "+friendUsername);
+        o.write("5: View my pending ChatGroup Invites");
+        o.write("6: View my pending MyCircle Invites");
 
 
         String in = "";
         while(!in.contentEquals("exit")){
-            log.Log("friend convo");
+            in = scanner.next();
+            log.Log("Read "+in+" in scanner");
+            if(in.length() == 1){
+                Integer response = new Integer(in);
+                switch(response){
+                    case(1):
+                        o.write("");
+                        break;
+                    case(2):
+                        break;
+                    case(3):
+                        break;
+                    case(4):
+                        break;
+                    case(5):
+                        break;
+                    case(6):
+                        break;
+                }
+            }
         }
     }
 }

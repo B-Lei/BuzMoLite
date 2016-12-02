@@ -10,6 +10,7 @@ import java.util.logging.*;
  * Logs all operations that occur and all errors that occur
  */
 public class Logger{
+    private static Logger instance = new Logger();
 
     //Log will be used for more execution based information, flow control, etc
     private FileHandler log;
@@ -21,8 +22,9 @@ public class Logger{
     //Keeping currentDay Static since this application will only run for 30 mins
     private String currentDay  = new SimpleDateFormat("yyyy.MM.dd").format(new Date());
 
+    public static Logger getInstance() { return instance;}
     //Creates a new logger for BuzMo
-    public Logger() throws Exception {
+    private Logger(){
         //Try to create FileHandlers for both sql and general logging
         try{
 
@@ -37,12 +39,16 @@ public class Logger{
             sql.setFormatter(format);
         }
         catch(IOException io){
-            throw new LoggerException("IOError Initializing Logger", io);
+            io.printStackTrace();
+            System.out.println(io.getMessage());
         }
         catch(Exception e){
-            throw new LoggerException("Error Initializing Logger", e);
+            e.printStackTrace();
+            System.out.print("Couldnt initialize logger");
         }
     }
+
+
 
     //dispose must be called when BuzMo is closing to prevent lock files
     public void dispose(){
