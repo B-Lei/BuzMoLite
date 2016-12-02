@@ -55,12 +55,23 @@ public class DebugMode extends View {
                 Vector<String> timeStamp = new Vector<>();
                 timeStamp.copyInto(tempTimeStamp);
 
-                // Combine to form AM and PM in index 6
+                // Current Vector contents
+                for (int i=0; i<timeStamp.size()-1; i++) {
+                    System.out.println("Found vector component: "+timeStamp.elementAt(i));
+                }
+
+                // Fix minuteAMPM issue
                 String str = timeStamp.elementAt(4);
-                str = str.substring(0, 1);
                 String ampm = str.substring(Math.max(str.length() - 2, 0));
+                str = str.substring(0, 1);
+
                 timeStamp.setElementAt(str, 4);
+                System.out.println("New minute: "+timeStamp.elementAt(4));
+
                 timeStamp.add(ampm);
+                System.out.println("New ampm: "+timeStamp.elementAt(5));
+
+                // Print the Vector
                 for (int i=0; i<timeStamp.size()-1; i++) {
                     System.out.println("Found final component: "+timeStamp.elementAt(i));
                 }
