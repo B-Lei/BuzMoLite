@@ -4,6 +4,8 @@ import BuzMo.Database.*;
 import BuzMo.Logger.Logger;
 
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -21,10 +23,10 @@ public class FriendConvo extends View{
     private ChatGroups chatGroups;
     private CircleInvites circleInvites;
     private CircleOfFriends circleOfFriends;
+    private AdminFile admin = null;
 
     FriendConvo(Scanner scanner, Logger log, Connection connection, String yourUsername, String friendUsername) {
         super(scanner, log, connection,yourUsername);
-        AdminFile admin = null;
 
         try {
             circleInvites = new CircleInvites(log, connection);
@@ -68,8 +70,11 @@ public class FriendConvo extends View{
 
                             o.write("Insert Message: ");
                             String message = scanner.next();
+                            insert(message, yourUsername,yourUsername);
+                            insert(message,yourUsername, friendUsername);
 
-                            msg.insertPrivateMsg(admin.getNextMessage(), yourUsername, message, recipient);
+
+                            //msg.insertPrivateMsg(admin.getNextMessage(), yourUsername, message, recipient);
                             break;
                         case (3)://Delete a post
                             o.write("Insert MessageID you wish to delete: ");
@@ -148,6 +153,11 @@ public class FriendConvo extends View{
         }
     }
 
+    private void insert(String message, String sender, String owner){
+        String sql = "INSERT INTO MESSAGES (message_id, sender, owner, message, timestamp, is_public VALUES(" +
+                admin.getNextMessage()+","+addTicks(sender)+","+ addTicks(owner)+","+addTicks(message)+","+Timestamp.getTimestamp()+")";
+                runSQL(log, connection, sql);
+    }
 
 
     private void display(){
@@ -190,5 +200,37 @@ public class FriendConvo extends View{
             log.Log(e.getMessage());
         }
 
+    }
+
+    static String addTicks(String original){
+        if(original.charAt(0) == '\'') {
+            return original;
+        }
+
+        String response = "'"+original+"'";
+        //System.out.println("added ticks to "+original);
+        return response;
+    }
+
+    static Statement getSt(Connection c, Logger log){
+        try {
+            return c.createStatement();
+        } catch (SQLException e) {
+            log.Log("Error creating statement: "+e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Statement runSQL(Logger log, Connection connection, String sql){
+        Statement st = null;
+        try{
+            st= connection.createStatement();
+
+        }catch (Exception e){
+            log.bSQL(sql);
+            log.Log("Error executing sql: "+e.getMessage());
+        }
+        return st;
     }
 }
