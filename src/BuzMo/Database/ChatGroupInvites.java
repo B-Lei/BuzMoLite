@@ -17,6 +17,7 @@ public class ChatGroupInvites extends DatabaseObject{
         this.chatGroups = chatGroups;
     }
 
+
     public void newInvite(String host, String invitee, String group){
         String sql = "INSERT INTO ChatGroupInvites(host, guest, group_name) VALUES(" +
                 addTicks(host)+","+addTicks(invitee)+","+addTicks(group)+")";

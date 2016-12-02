@@ -2,6 +2,7 @@ package BuzMo.GUI;
 
 import BuzMo.Database.ChatGroupInvites;
 import BuzMo.Database.ChatGroups;
+import BuzMo.Database.AdminFile;
 import BuzMo.Logger.Logger;
 
 import java.sql.Connection;
@@ -16,12 +17,14 @@ import java.util.Vector;
 public class NewChatGroup extends View {
     private ChatGroups chatGroups;
     private ChatGroupInvites chatGroupInvites;
+    private AdminFile adminFile;
 
     public NewChatGroup (Scanner scanner, Logger log, Connection connection, String yourUsername) {
         super(scanner, log, connection, yourUsername);
         try {
             chatGroups = new ChatGroups(log, connection);
             chatGroupInvites = new ChatGroupInvites(log, connection, chatGroups);
+            adminFile = new AdminFile(log, connection);
         } catch(Exception except) {
             System.out.println("NewChatGroup -- EXCEPTION CAUGHT: "+except.getMessage());
             log.Log("NewChatGroup -- Error: "+except.getMessage());
@@ -66,8 +69,7 @@ public class NewChatGroup extends View {
             }
 
             // Create the ChatGroup
-            // CURRENTLY, MSG_ID IS A RANDOM VALUE
-            chatGroups.insertGroup(yourUsername, chatGroupName, 999, messageDuration);
+            chatGroups.insertGroup(yourUsername, chatGroupName, adminFile.getNextMessage(), messageDuration);
 
             // Send an invite to all the members in newMemberList
             for(int i=0; i<newMemberList.size(); i++){
