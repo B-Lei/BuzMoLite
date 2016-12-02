@@ -234,8 +234,8 @@ public class ManagerMenu extends View {
                     System.out.println("This shouldn't even be possible");
             }
         } catch (Exception except) {
-            System.out.println("Exception occurred while performing a single handleQuery");
-            log.Log("ManagerMenu -- Exception occurred while performing a single handleQuery");
+            System.out.println("Exception occurred while performing a single handleQuery: "+except.getMessage());
+            log.Log("ManagerMenu -- Exception occurred while performing a single handleQuery: "+except.getMessage());
         }
         return result;
     }
