@@ -29,11 +29,11 @@ public class FriendConvo extends View{
             log.Log("ERROR couldnt init Message handler " + e.getMessage());
         }
 
-        display();
 
         String in = "";
         o.setAlignment(GUIOutput.ALIGN.LEFT);
         while(!in.contentEquals("exit")){
+            display();
             in = scanner.next();
             log.Log("Read "+in+" in scanner");
             if(in.length() == 1){
@@ -82,7 +82,7 @@ public class FriendConvo extends View{
         o.writeLine();
         o.writeLine();
         o.setAlignment(GUIOutput.ALIGN.CENTER);
-        o.write("Enter number for action you want to use or type exit");
+        o.write("Enter the Action Number or type exit");
         o.write("1: Create New Post");
         o.write("2: Delete a Post");
         o.write("3: See More Messages");
