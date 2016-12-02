@@ -66,7 +66,7 @@ public class MainMenu extends View {
                         break;
                     // Create a ChatGroup
                     case 5:
-                        //new NewChatGroup(scanner, log, connection, yourUsername);
+                        new NewChatGroup(scanner, log, connection, yourUsername);
                         break;
                     // Search Messages
                     case 6:
@@ -86,6 +86,7 @@ public class MainMenu extends View {
                 }
 
             }
+            writeMenu();
         }
     }
 }
