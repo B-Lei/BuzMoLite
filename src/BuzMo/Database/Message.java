@@ -17,4 +17,10 @@ public class Message {
         this.receiver = receiver;
         this.sender= sender;
     }
+
+    public Message(int id, String message, String sender){
+        this.id = id;
+        this.message = message;
+        this.sender = sender;
+    }
 }

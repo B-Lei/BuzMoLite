@@ -124,4 +124,10 @@ public class MessageReceivers extends DatabaseObject {
 
         return response;
     }
+
+    public void dropRecipients(int id){
+        String sql = "delete from messagereceivers where message_id ="+id;
+        runSQL(log,connection,sql);
+
+    }
 }

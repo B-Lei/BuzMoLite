@@ -93,7 +93,7 @@ public class Database {
         }
 
         try {
-            CreateDatabase init = new CreateDatabase(log, connection, this);
+            //CreateDatabase init = new CreateDatabase(log, connection, this);
         }
         catch (Exception e){
             e.printStackTrace();

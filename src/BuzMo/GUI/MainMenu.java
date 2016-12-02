@@ -53,6 +53,7 @@ public class MainMenu extends View {
                 switch(selection){
                     //Existing Conversations
                     case 1:
+                        new MyCircle(scanner,log,connection,yourUsername);
                         break;
                     //Chatgroups
                     case 2:
@@ -63,6 +64,7 @@ public class MainMenu extends View {
                         break;
                     //Create Conversation
                     case 4:
+                        new CreateNewConvo2(scanner,log,connection,yourUsername);
                         break;
                     // Create a ChatGroup
                     case 5:
