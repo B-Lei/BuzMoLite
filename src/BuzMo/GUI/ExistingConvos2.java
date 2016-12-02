@@ -23,8 +23,29 @@ public class ExistingConvos2 extends View{
         super(scanner, log, connection, user);
         try {
             this.handler = new MessageHandler(log, connection);
-            this.friends = handler.getUsersWhoMessaged(user);
 
+
+
+
+            String s = "";
+            while (!s.contentEquals("exit")) {
+                display(user);
+                s = scanner.next();
+                if (friends.contains(s)) {
+                    new FriendConvo(scanner, user, s);
+                }
+            }
+        } catch (Exception e) {
+            log.Log(e.getMessage());
+        }
+
+
+
+    }
+
+    private void display(String user){
+        try {
+            this.friends = handler.getUsersWhoMessaged(user);
             o.setAlignment(GUIOutput.ALIGN.CENTER);
             o.writeLine();
             o.empty();
@@ -39,17 +60,8 @@ public class ExistingConvos2 extends View{
             }
 
             o.writeLine();
-
-
-            String s = "";
-            while (!s.contentEquals("exit")) {
-                s = scanner.next();
-                if (friends.contains(s)) {
-                    new FriendConvo(scanner, user, s);
-                }
-            }
-        } catch (Exception e) {
-            log.Log(e.getMessage());
+        } catch(Exception e){
+            log.Log("Error in Existing Convos Display "+e.getMessage());
         }
     }
 }
