@@ -89,16 +89,19 @@ public class MessageHandler extends DatabaseObject{
 
     //Insert Private Message Functions
     Insert insertPrivateMsg(Integer messageID, String sender, String message, String timestamp, Vector<String> topicWords, Vector<String> recipients){
+        insert(messageID, sender, message, timestamp, 0, topicWords, recipients,recipients.get(0));
         return insert(messageID, sender, message, timestamp, 0, topicWords, recipients);
     }
 
     //Insert Private message with no topic words
     Insert insertPrivateMsg(Integer messageID, String sender, String message, String timestamp, Vector<String> recipients){
+        insert(messageID,sender,message,timestamp, 0, null,recipients, recipients.get(0));
         return insert(messageID,sender,message,timestamp, 0, null, recipients);
     }
 
     //Insert Private message with no topic words and no timestamp
     public Insert insertPrivateMsg(Integer messageID, String sender, String message, Vector<String> recipients){
+        insert(messageID, sender, message, Timestamp.getTimestamp(), 0, null,recipients, recipients.get(0));
         return insert(messageID, sender, message, Timestamp.getTimestamp(), 0, null, recipients);
     }
 
@@ -144,30 +147,62 @@ public class MessageHandler extends DatabaseObject{
                 return addRecipients;
             }
 
-            //If it is a private message save a copy with the owner switched
-            if(isPublic == 0) {
-                AdminFile ad = new AdminFile(log, connection);
-                log.Log("Is public is "+ ad.getNextMessage());
-                int id2 = ad.getNextMessage();
-                log.Log("id2" + id2+" for "+message);
-                st = connection.createStatement();
-                sql = "INSERT INTO Messages(message_id, sender, owner,  message, timestamp, is_public) VALUES (";
-                sql += id2 + "," + addTicks(sender) + "," + addTicks(recipients.get(0)) + "," + addTicks(message) + "," + addTicks(timestamp) + "," + isPublic + ")";
-                st.execute(sql);
-                st.close();
-                log.gSQL(sql);
 
-                Vector<String> other = new Vector<>();
-                other.add(sender);
-                //Add all recipients
-                addRecipients = MessageReceivers.insertRecipients(log, connection, id2, other);
-                if(addRecipients != Insert.SUCCESS){
-                    log.Log("couldn't add msg recipients "+addRecipients.toString());
-                    return addRecipients;
-                }
 
-                MessageTopicWords.insert(log, connection, id2, topicWords);
+            //Make sure public messages have at least one topic words
+            if(isPublic==1 && topicWords.isEmpty()) {
+                log.Log("cannot have empty topic words on public message" + message);
+                return Insert.EMPTY_TOPIC_WORDS;
+            }
 
+            //Insert topic words
+            MessageTopicWords.insert(log, connection, messageID, topicWords);
+
+
+
+        }catch (Exception e){
+            log.bSQL(sql);
+            log.Log(e.getMessage());
+            return Insert.INVALID;
+        }
+
+        return Insert.SUCCESS;
+    }
+    public Insert insert(Integer messageID, String sender, String message, String timestamp, int isPublic, Vector<String> topicWords, Vector<String> recipients, String owner){
+        Statement st;
+        try{
+            st = connection.createStatement();
+        }catch(Exception e ){
+            log.Log("Error creating statment for Insert statement");
+            return Insert.INVALID;
+        }
+        String sql = "INSERT INTO Messages(message_id, sender, owner,  message, timestamp, is_public) VALUES (";
+
+        try{
+            if(!User.exists(connection, sender)){
+                return Insert.NOEXIST_USR;
+            }
+
+            if(MessageHandler.exists(log, connection, messageID)){
+                log.Log("Duplicate messageID" + messageID);
+                return Insert.INVALID;
+            }
+
+
+            //Screen for any 's to be inserted
+            message = message.replaceAll("'", "\'\'");
+            log.Log("messageID: "+messageID+" for message "+message);
+            sql += messageID + "," + addTicks(sender) + "," + addTicks(owner)+ "," + addTicks(message) + "," + addTicks(timestamp) + "," + isPublic+")";
+
+            st.execute(sql);
+            log.gSQL(sql);
+            st.close();
+
+            //Add all recipients
+            Insert addRecipients = MessageReceivers.insertRecipients(log, connection, messageID, recipients);
+            if(addRecipients != Insert.SUCCESS){
+                log.Log("couldn't add msg recipients "+addRecipients.toString());
+                return addRecipients;
             }
 
 
