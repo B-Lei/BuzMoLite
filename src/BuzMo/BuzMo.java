@@ -6,6 +6,7 @@ import BuzMo.GUI.GUI;
 import BuzMo.Logger.Logger;
 import BuzMo.Logger.LoggerException;
 import BuzMo.Properties.AppProperties;
+import sun.rmi.runtime.Log;
 
 import javax.security.auth.login.LoginException;
 
@@ -32,10 +33,16 @@ public class BuzMo {
         try {
             //Load Logger
             //Use log.Log(Message) to write a message to the .log file
-            log = new Logger();
+            log = Logger.getInstance();
+            if(log == null){
+                exit(1);
+            }
 
             //Load Database Connector
-            db = new Database(log);
+            db = Database.getInstance();
+            if(db == null){
+                exit(1);
+            }
 
             //Load GUI
             gui = new GUI(log, db);
@@ -43,11 +50,6 @@ public class BuzMo {
             db.dispose();
             log.Log("BuzMo Successfully Exited");
             log.Log("===========================");
-        }
-        catch(LoggerException le){
-            System.out.println("Error: "+le.getMessage()+" occurred when initializing the logger");
-            le.printStackTrace();
-            exit(2);
         }
         catch(DatabaseException de){
             System.out.println("Error: "+de.getMessage()+" occurred when initializing the database");
