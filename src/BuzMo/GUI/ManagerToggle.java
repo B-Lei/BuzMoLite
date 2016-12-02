@@ -1,53 +1,58 @@
 package BuzMo.GUI;
 
 import BuzMo.Logger.Logger;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import BuzMo.Database.User;
+
+import java.sql.Connection;
+import java.util.Scanner;
+
 /**
  * Created by Ben on 11/30/2016.
  */
-public class ManagerToggle {
-    private Logger log;
-    private JFrame ManagerToggleWindow = new JFrame("Manager Login Portal");
+public class ManagerToggle extends View {
 
-    ManagerToggle(Logger log, String yourUsername) {
-        // Hook up logger to GUI
-        this.log = log;
+    ManagerToggle(Scanner scanner, Logger log, Connection connection, String yourUsername) {
+        super(scanner, log, connection, yourUsername);
 
-        // Set the login window parameters
-        ManagerToggleWindow.setSize(700,200);
-        ManagerToggleWindow.setLocation(100,200);
-        ManagerToggleWindow.setResizable(false);
-
-        // Create and populate the panel
-        JPanel p = new JPanel(new GridLayout(2,1));
-        JButton loginButton = new JButton("Log in as Manager");
-        JButton logoutButton = new JButton("Log out as Manager");
-
-        p.add(loginButton);
-        p.add(logoutButton);
-        handleToggleButtonClick(loginButton, yourUsername, true);
-        handleToggleButtonClick(logoutButton, yourUsername, false);
-
-        p.setOpaque(true);
-        ManagerToggleWindow.setContentPane(p);
-        ManagerToggleWindow.setVisible(true);
+        writeOpeningText();
+        while(!handleInput()) {
+            log.Log("Invalid ManagerToggle operation");
+        }
 
         log.Log("GUI -- ManagerToggle properly loaded");
     }
 
-    // ADD SQL QUERY TO TOGGLE MANAGER ATTRIBUTE
-    public void handleToggleButtonClick(JButton newButton, String yourUsername, boolean login) {
-        newButton.addActionListener(
-                (ActionEvent e) -> {
-                    if(login) {
-                        JOptionPane.showMessageDialog(null, "Logged in as Manager!");
-                    }
-                    else {
-                        JOptionPane.showMessageDialog(null, "Logged out as Manager.");
-                    }
-                }
-        );
+    // Outputs for the opening text
+    public void writeOpeningText() {
+        o.setAlignment(GUIOutput.ALIGN.CENTER);
+        o.write("Log in or Log out as a Manager");
+        o.writeLine();
+
+        o.write("Enter the Number of Your Selection");
+        o.setAlignment(GUIOutput.ALIGN.LEFT);
+        o.write("1: Log in as Manager");
+        o.write("2: Log out as Manager");
+    }
+
+    public boolean handleInput() {
+        int input = scanner.nextInt();
+
+        if (input!=1 && input !=2)
+            return false;
+
+        try {
+            // INCOMPLETE - add SQL to log in as Manager
+            if (input == 1) {
+
+            }
+            // INCOMPLETE - add SQL to log out as Manager
+            else {
+
+            }
+        } catch(Exception except) {
+            System.out.println("ManagerToggle -- EXCEPTION CAUGHT: "+except.getMessage());
+            log.Log("ManagerToggle -- Error: "+except.getMessage());
+        }
+        return true;
     }
 }
