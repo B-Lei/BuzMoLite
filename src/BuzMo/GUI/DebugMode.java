@@ -40,10 +40,15 @@ public class DebugMode extends View {
         }
         else {
             try {
+                System.out.println("input: "+input);
                 // Unconfirmed if this works or not
                 String inputNoWhitespace = input.replace(" ", "");
+                System.out.println("stripped input: "+input);
                 // 1(Day) 2(Month) 3(Year) 4(Hour) 5(Minute) 6(first letter of AM/PM) 7(second letter of AM/PM)
                 String[] timeStamp = inputNoWhitespace.split("[.|:A-Z]");
+                for (int i=0; i<timeStamp.length; i++) {
+                    System.out.println("Component found: "+timeStamp[i]);
+                }
                 // Combine to form AM and PM in index 6
                 timeStamp[6] = timeStamp[6]+timeStamp[7];
                 System.out.println("Detected Timestamp: "+timeStamp);

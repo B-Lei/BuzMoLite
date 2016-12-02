@@ -70,18 +70,18 @@ public class MainMenu extends View {
                         break;
                     // Search Messages
                     case 6:
-                        new ManagerMenu(scanner, log, connection, yourUsername);
                         break;
                     // Manager Mode
                     case 7:
-                        new ManagerToggle(scanner, log, connection, yourUsername);
+                        new ManagerMenu(scanner, log, connection, yourUsername);
                         break;
                     // Manager login/logout
                     case 8:
-                        new DebugMode(scanner, log, connection, yourUsername);
+                        new ManagerToggle(scanner, log, connection, yourUsername);
                         break;
                     // Edit BuzMo Time
                     case 9:
+                        new DebugMode(scanner, log, connection, yourUsername);
                         break;
                 }
 
