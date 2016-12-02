@@ -89,7 +89,7 @@ class CreateDatabase {
                 "message VARCHAR(1400)," +
                 "timestamp VARCHAR(30)," +
                 "is_public INTEGER DEFAULT 0," +
-                "PRIMARY KEY(message_id, owner))";
+                "PRIMARY KEY(message_id))";
                 //Check if message is public, topic words cannot be null
 
         writeTable("Messages", Messages);
@@ -278,6 +278,7 @@ class CreateDatabase {
             Vector<String> recipients = new Vector<>();
             recipients.add(line[2]);
             message.insertPrivateMsg(database.getNewMsg(),line[1],line[3],line[4], recipients);
+            database.getNewMsg();
         }
     }
 

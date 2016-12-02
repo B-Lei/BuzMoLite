@@ -137,6 +137,7 @@ public class MessageHandler extends DatabaseObject{
 
             //If it is a private message save a copy with the owner switched
             if(isPublic == 0) {
+                messageID++;
                 st = connection.createStatement();
                 sql = "INSERT INTO Messages(message_id, sender, owner,  message, timestamp, is_public) VALUES (";
                 sql += messageID + "," + addTicks(sender) + "," + addTicks(recipients.get(0)) + "," + addTicks(message) + "," + addTicks(timestamp) + "," + isPublic + ")";
