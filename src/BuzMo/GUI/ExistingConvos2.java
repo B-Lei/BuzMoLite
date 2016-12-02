@@ -40,16 +40,16 @@ public class ExistingConvos2 extends View{
 
             o.writeLine();
 
-        } catch (Exception e) {
-            log.Log("ERROR couldnt init Message handler " + e.getMessage());
-        }
 
-        String s = "";
-        while(!s.contentEquals("exit")){
-            s = scanner.next();
-            if(friends.contains(s)){
-                new FriendConvo(scanner,log, connection,user, s);
+            String s = "";
+            while (!s.contentEquals("exit")) {
+                s = scanner.next();
+                if (friends.contains(s)) {
+                    new FriendConvo(scanner, log, handler, connection, user, s);
+                }
             }
+        } catch (Exception e) {
+            log.Log(e.getMessage());
         }
     }
 }
