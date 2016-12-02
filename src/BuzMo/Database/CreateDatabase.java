@@ -183,6 +183,8 @@ class CreateDatabase {
     //Are not present, fail silently
     private void dropAllTables(){
         Vector<String> tables = new Vector<>();
+        tables.add("MyCircleInvites");
+        tables.add("ChatGroupInvites");
         tables.add("circleoffriends");
         tables.add("usertopicwords");
         tables.add("messagetopicwords");
@@ -191,8 +193,7 @@ class CreateDatabase {
         tables.add("chatgroups");
         tables.add("messages");
         tables.add("users");
-        tables.add("MyCircleInvites");
-        tables.add("ChatGroupInvites");
+
 
 
         //Try to drop each table and fail silently if not found
