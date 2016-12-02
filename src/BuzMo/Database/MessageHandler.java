@@ -68,7 +68,7 @@ public class MessageHandler extends DatabaseObject{
     }
 
     //Insert Private Group Message with timestamp and no topic words
-    Insert insertPrivateGroupMessage(Integer messageID, String sender, String message, String timestamp, String group_name, Integer groupID) throws DatabaseException{
+    Insert insertPrivateGroupMessage(Integer messageID, String sender, String message, String group_name, String timestamp, Integer groupID) throws DatabaseException{
         Vector<String> recipients = ChatGroupMembers.members(log, connection, group_name);
         return insert(messageID, sender, message, timestamp, groupID,null, recipients);
     }
