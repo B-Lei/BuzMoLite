@@ -146,6 +146,7 @@ public class MessageHandler extends DatabaseObject{
 
             //If it is a private message save a copy with the owner switched
             if(isPublic == 0) {
+                log.Log("Is public");
                 int id2 = Database.getInstance().getNewMsg();
                 log.Log("id2 for "+message);
                 st = connection.createStatement();
