@@ -33,7 +33,8 @@ public class FriendConvo extends View{
         o.writeLine();
         o.setAlignment(GUIOutput.ALIGN.LEFT);
         for(Message m: messages){
-            o.write(m.id + ": "+m.message);
+            o.write("ID: "+m.id );
+            o.write(m.sender+ " to "+m.receiver+":"+m.message );
         }
         o.writeLine();
         o.writeLine();
