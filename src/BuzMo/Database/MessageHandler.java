@@ -152,11 +152,10 @@ public class MessageHandler extends DatabaseObject{
                 st.close();
                 log.gSQL(sql);
 
-                Vector<String> owner = new Vector<>();
-                MessageReceivers.insertRecipients(log, connection, messageID, owner);
-
+                Vector<String> other = new Vector<>();
+                other.add(sender);
                 //Add all recipients
-                addRecipients = MessageReceivers.insertRecipients(log, connection, messageID, recipients);
+                addRecipients = MessageReceivers.insertRecipients(log, connection, messageID, other);
                 if(addRecipients != Insert.SUCCESS){
                     log.Log("couldn't add msg recipients "+addRecipients.toString());
                     return addRecipients;
@@ -197,10 +196,12 @@ public class MessageHandler extends DatabaseObject{
         try{
             Statement st = connection.createStatement();
             st.execute(sql);
+            log.gSQL(sql);
             ResultSet rs = st.getResultSet();
 
             while(rs.next()){
                 messages.add(rs.getInt(1));
+                log.Log("adding message to private messages");
             }
 
             log.gSQL(sql);
