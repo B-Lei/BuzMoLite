@@ -29,11 +29,14 @@ public class Database {
     private int newMsg = 0;
     private int newGroup = 0;
 
-    private OracleDataSource Osource = null;
     private MysqlDataSource Msource = null;
 
     public FriendRequests friendRequests;
     public GroupInvites groupInvites;
+    public CircleOfFriends circleOfFriends;
+    public ChatGroupInvites chatGroupInvites;
+    public ChatGroups chatGroups;
+
 
     public static Database getInstance(){
         return instance;
@@ -107,8 +110,12 @@ public class Database {
             e.printStackTrace();
         }
 
+        //INIT DBASE OBJECTS
         try {
-            this.friendRequests = new FriendRequests(log, connection);
+            this.circleOfFriends = new CircleOfFriends(log, connection);
+            this.chatGroups = new ChatGroups(log, connection);
+            this.chatGroupInvites = new ChatGroupInvites(log, connection, chatGroups);
+            this.friendRequests = new FriendRequests(log, connection, circleOfFriends);
             this.groupInvites = new GroupInvites(log, connection);
 
         }catch(Exception e){

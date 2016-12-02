@@ -138,5 +138,10 @@ public class ChatGroups extends DatabaseObject{
         return response;
     }
 
+    public void addUser(String user, String group){
+        String sql = "INSERT INTO ChatGroupMembers (member, group_name) VALUES ("+addTicks(user)+","+addTicks(group)+")";
+        runSQL(log, connection, sql);
+    }
+
 
 }

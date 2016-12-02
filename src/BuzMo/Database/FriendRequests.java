@@ -1,5 +1,6 @@
 package BuzMo.Database;
 
+import BuzMo.GUI.FriendConvo;
 import BuzMo.Logger.Logger;
 import com.sun.org.apache.regexp.internal.RE;
 
@@ -12,9 +13,11 @@ import java.util.Vector;
  * Created by lucas on 12/2/2016.
  */
 public class FriendRequests extends DatabaseObject{
+    private CircleOfFriends circleOfFriends;
 
-    public FriendRequests(Logger log, Connection connection) throws DatabaseException {
+    public FriendRequests(Logger log, Connection connection, CircleOfFriends circleOfFriends) throws DatabaseException {
         super(log, connection);
+        this.circleOfFriends = circleOfFriends;
     }
 
     public void newRequest(String user1, String user2){
@@ -38,5 +41,15 @@ public class FriendRequests extends DatabaseObject{
             log.Log(e.getMessage());
         }
         return response;
+    }
+
+    public void accept(String host, String guest){
+        String sql = "DROP FROM MyCircleInvites WHERE host="+addTicks(host)+" AND guest="+addTicks(guest);
+        runSQL(log, connection, sql);
+        try {
+            this.circleOfFriends.addFriends(host, guest);
+        }catch (Exception e ){
+            log.Log(e.getMessage());
+        }
     }
 }

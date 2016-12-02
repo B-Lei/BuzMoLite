@@ -16,6 +16,8 @@ public class FriendConvo extends View{
     String friend;
     Vector<Message> messages;
     MessageHandler msg;
+    //Determines which messages will be displayed
+    int messageStart = 0;
 
     FriendConvo(Scanner scanner, Logger log, MessageHandler handler, Connection connection, String yourUsername, String friendUsername) {
         super(scanner, log, connection,yourUsername);
@@ -38,7 +40,14 @@ public class FriendConvo extends View{
                 try {
                     Integer response = new Integer(in);
                     switch (response) {
-                        case (1): //Add a new private post between the two
+                        case(1): //Scroll Up
+                            if(messageStart == 0) break;
+                            else this.messageStart--;
+                        case (2):
+                            if(messageStart + 1 == messages.size()) break;
+                            else this.messageStart++;
+                        case (3):
+                            //Add a new private post between the two
                             Vector<String> recipient = new Vector<>();
                             recipient.add(friendUsername);
 
@@ -47,14 +56,12 @@ public class FriendConvo extends View{
 
                             handler.insertPrivateMsg(db.getNewMsg(), yourUsername, message, recipient);
                             break;
-                        case (2): //Delete a post
+                        case (4)://Delete a post
                             o.write("Insert MessageID you wish to delete: ");
                             int input = new Integer(scanner.next());
                             msg.dropPrivatePost(yourUsername,input );
                             break;
-                        case (3):
-                            break;
-                        case (4):
+                        case (5):
                             o.write("Insert name of group to invite "+friendUsername);
                             in = scanner.next();
                             if(!ChatGroups.exists(log, connection,in)){
@@ -69,16 +76,51 @@ public class FriendConvo extends View{
                                 db.groupInvites.newInvite(yourUsername,friendUsername,in);
                                 o.write("Group Invite Sent");
                             }
-
-                            break;
-                        case (5):
-                            o.write("Pending MyCircle Requests ");
-
                             break;
                         case (6):
-                            o.write("Pending Friend Requests ");
-                            for(String f: db.friendRequests.pendingRequests(yourUsername)){
+                            o.write("Pending ChatGroup Requests ");
+                            Vector<ChatGroupInvite> cgr = db.chatGroupInvites.pendingInvites(yourUsername);
+                            if(cgr.size() == 0){
+                                o.write("No Pending Friend Requests");
+                            }
+                            else{
+                                o.write("Enter Number To Accept");
+                                int i;
+                                for(i=0; i<cgr.size(); i++){
+                                    o.write(i+": "+cgr.get(i).groupName+ "from: "+ cgr.get(i).host);
+                                }
 
+                                //Read in input of friend request to accept
+                                in = scanner.next();
+                                if(in.contentEquals("exit")){
+                                    break;
+                                }
+                                response = new Integer(in);
+                                db.chatGroupInvites.accept(cgr.get(i), yourUsername);
+                            }
+                            o.empty();
+                            o.writeLine();
+                            break;
+                        case (7):
+                            o.write("Pending Friend Requests ");
+                            Vector<String> fr = db.friendRequests.pendingRequests(yourUsername);
+                            if(fr.size() == 0){
+                                o.write("No Pending Friend Requests");
+                            }
+                            else{
+                                o.write("Enter Number To Accept");
+                                int i;
+                                for(i=0; i<fr.size(); i++){
+                                    o.write(i+": "+fr.get(i));
+                                }
+
+                                //Read in input of friend request to accept
+                                in = scanner.next();
+                                if(in.contentEquals("exit")){
+                                    break;
+                                }
+                                response = new Integer(in);
+                                db.friendRequests.accept(fr.get(i), yourUsername);
                             }
                             o.empty();
                             o.writeLine();
@@ -90,6 +132,8 @@ public class FriendConvo extends View{
             }
         }
     }
+
+
 
     private void display(){
         loadPosts();
@@ -109,12 +153,14 @@ public class FriendConvo extends View{
         o.writeLine();
         o.setAlignment(GUIOutput.ALIGN.CENTER);
         o.write("Enter the Action Number or type exit");
-        o.write("1: Create New Post");
-        o.write("2: Delete a Post");
-        o.write("3: See More Messages");
-        o.write("4: Send ChatGroup Invite to "+friend);
-        o.write("5: View my pending ChatGroup Invites");
-        o.write("6: View my pending MyCircle Invites");
+        o.write("0: ScrollUp");
+        o.write("1: ScrollDown");
+        o.write("2: Create New Post");
+        o.write("3: Delete a Post");
+        o.write("4: See More Messages");
+        o.write("5: Send ChatGroup Invite to "+friend);
+        o.write("6: View my pending ChatGroup Invites");
+        o.write("7: View my pending MyCircle Invites");
         o.empty(5);
     }
 
