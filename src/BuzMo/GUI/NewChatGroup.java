@@ -44,9 +44,9 @@ public class NewChatGroup extends View {
         String temp[] = newMembers.split("\\s*,\\s*");
         newMemberList.copyInto(temp);
 
-        //System.out.print("ENTER MESSAGE DURATION IN DAYS: ");
-        //String messageDurationString = scanner.next();
-        //int messageDuration = Integer.parseInt(messageDurationString);
+        System.out.print("ENTER MESSAGE DURATION IN DAYS: ");
+        String messageDurationString = scanner.next();
+        int messageDuration = Integer.parseInt(messageDurationString);
 
         try {    
             boolean exists = ChatGroups.exists(log, connection, chatGroupName);

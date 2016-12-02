@@ -46,12 +46,8 @@ public class DebugMode extends View {
             try {
                 System.out.println("input: "+input);
 
-                // Unconfirmed if this works or not
-                String inputNoWhitespace = input.replace(" ", "");
-                System.out.println("stripped input: "+input);
-
                 // 1(Day) 2(Month) 3(Year) 4(Hour) 5(MinuteAM/PM)
-                String[] tempTimeStamp = inputNoWhitespace.split("[.|:]");
+                String[] tempTimeStamp = input.split("[.|:]");
                 Vector<String> timeStamp = new Vector(Arrays.asList(tempTimeStamp));
 
                 // Fix minuteAMPM issue
