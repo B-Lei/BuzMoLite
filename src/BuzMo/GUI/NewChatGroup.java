@@ -43,7 +43,8 @@ public class NewChatGroup extends View {
         newMemberList.copyInto(temp);
 
         System.out.print("ENTER MESSAGE DURATION IN DAYS: ");
-        int messageDuration = scanner.nextInt();
+        String messageDurationString = scanner.next();
+        int messageDuration = Integer.parseInt(messageDurationString);
 
         try {    
             boolean exists = ChatGroups.exists(log, connection, chatGroupName);
@@ -53,7 +54,7 @@ public class NewChatGroup extends View {
                 log.Log("NewChatGroup -- Name already exists!");
                 return false;
             }
-        
+
             //ChatGroups.insertGroupAndUsers(yourUsername, chatGroupName, messageDuration, newMemberList);
         } catch(Exception except) {
             System.out.println("NewChatGroup -- EXCEPTION CAUGHT: "+except.getMessage());
