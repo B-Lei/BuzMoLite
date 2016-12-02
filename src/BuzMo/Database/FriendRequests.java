@@ -1,8 +1,6 @@
 package BuzMo.Database;
 
-import BuzMo.GUI.FriendConvo;
 import BuzMo.Logger.Logger;
-import com.sun.org.apache.regexp.internal.RE;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
