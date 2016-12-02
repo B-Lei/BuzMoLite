@@ -327,6 +327,7 @@ class CreateDatabase {
 
         while ((line = csv.getNextLine()) != null) {
             Integer msgID = chatGroups.getMsgId(log, connection,line[0]);
+            log.Log("Retrieved msgID in InsertGroupMsgs for group"+line[0]+" and got "+msgID);
             message.insertPrivateGroupMessage(database.getNewMsg(),line[1],line[2],line[0],line[3],msgID);
         }
     }
