@@ -29,6 +29,7 @@ public class FriendConvo extends View{
             log.Log("ERROR couldnt init Message handler " + e.getMessage());
         }
 
+        display();
 
         String in = "";
         o.setAlignment(GUIOutput.ALIGN.LEFT);
