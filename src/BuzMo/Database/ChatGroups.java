@@ -1,7 +1,9 @@
 package BuzMo.Database;
 
 import BuzMo.Logger.Logger;
+import jdk.nashorn.internal.ir.CatchNode;
 
+import javax.xml.crypto.Data;
 import java.lang.reflect.Member;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -50,8 +52,8 @@ public class ChatGroups extends DatabaseObject{
         }
     }
 
-    public Insert insertGroupAndUsers(String owner, String name, int duration, Vector<String> members) throws DatabaseException{
-        Insert result = insertGroup(owner, name, duration);
+    public Insert insertGroupAndUsers(String owner, String name, int msgID, int duration, Vector<String> members) throws DatabaseException{
+        Insert result = insertGroup(owner, name, msgID, duration);
         if(result !=Insert.SUCCESS) {
             log.Log("Failed to insert new group" + result.toString());
             return result;
@@ -62,7 +64,7 @@ public class ChatGroups extends DatabaseObject{
     }
 
     //Insert Group into the table
-    public Insert insertGroup(String owner, String name, int duration) throws DatabaseException{
+    public Insert insertGroup(String owner, String name, int msg_id, int duration) throws DatabaseException{
         Vector<String> own = new Vector<>();
         own.add(owner);
 
@@ -84,8 +86,8 @@ public class ChatGroups extends DatabaseObject{
             return Insert.DUPLICATE;
         }
 
-        String sql = "INSERT INTO chatgroups (owner, group_name, duration) VALUES (" +
-                addTicks(owner) + "," + addTicks(name) + "," + duration + ")";
+        String sql = "INSERT INTO chatgroups (owner, group_name, msg_id, duration) VALUES (" +
+                addTicks(owner) + "," + addTicks(name) + ","+ msg_id+ "," + duration + ")";
 
         try {
             st.execute(sql);
@@ -109,6 +111,30 @@ public class ChatGroups extends DatabaseObject{
         }
 
         return Insert.SUCCESS;
+    }
+
+    public Integer getMsgId(Logger log,Connection connection,String name) throws DatabaseException{
+        String sql = "SELECT msg_id FROM  ChatGroups WHERE group_name="+addTicks(name);
+
+        Integer response = -1;
+        try{
+            Statement st = connection.createStatement();
+            st.execute(sql);
+            log.gSQL(sql);
+
+            ResultSet res = st.getResultSet();
+            res.next();
+            response = res.getInt(1);
+
+            res.close();
+            st.close();
+
+        } catch(Exception e){
+            log.bSQL(sql);
+            throw new DatabaseException(e);
+        }
+
+        return response;
     }
 
 

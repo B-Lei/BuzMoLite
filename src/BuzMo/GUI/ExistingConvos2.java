@@ -38,6 +38,8 @@ public class ExistingConvos2 extends View{
                 o.write(s);
             }
 
+            o.writeLine();
+
         } catch (Exception e) {
             log.Log("ERROR couldnt init Message handler " + e.getMessage());
         }

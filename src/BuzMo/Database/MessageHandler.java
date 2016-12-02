@@ -52,61 +52,61 @@ public class MessageHandler extends DatabaseObject{
     //Inserts Public Message with Timestamp
     Insert insertPublicMessage(Integer messageID, String sender, String message, String timestamp, Vector<String> topicWords) throws DatabaseException{
         Vector<String> recipients = CircleOfFriends.getCircleOfFriends(log, connection, sender);
-        return insert(messageID, sender, message, timestamp, true, topicWords, recipients);
+        return insert(messageID, sender, message, timestamp, 1, topicWords, recipients);
     }
 
     //Inserts Public Message without Timestamp
     public Insert insertPublicMessage(Integer messageID, String sender, String message, Vector<String> topicWords) throws DatabaseException{
         Vector<String> recipients = CircleOfFriends.getCircleOfFriends(log, connection, sender);
-        return insert(messageID, sender, message, Timestamp.getTimestamp(), true, topicWords, recipients);
+        return insert(messageID, sender, message, Timestamp.getTimestamp(), 1, topicWords, recipients);
     }
 
     //Insert Private Group Message with timestamp and topicWords
-    Insert insertPrivateGroupMessage(Integer messageID, String sender, String message, String timestamp, Vector<String> topicWords, String group_name) throws DatabaseException{
+    Insert insertPrivateGroupMessage(Integer messageID, String sender, String message, String timestamp, Vector<String> topicWords, String group_name, Integer groupID) throws DatabaseException{
         Vector<String> recipients = ChatGroupMembers.members(log, connection, group_name);
-        return insert(messageID, sender, message, timestamp, false, topicWords, recipients);
+        return insert(messageID, sender, message, timestamp, groupID, topicWords, recipients);
     }
 
     //Insert Private Group Message with timestamp and no topic words
-    Insert insertPrivateGroupMessage(Integer messageID, String sender, String message, String timestamp, String group_name) throws DatabaseException{
+    Insert insertPrivateGroupMessage(Integer messageID, String sender, String message, String timestamp, String group_name, Integer groupID) throws DatabaseException{
         Vector<String> recipients = ChatGroupMembers.members(log, connection, group_name);
-        return insert(messageID, sender, message, timestamp, false,null, recipients);
+        return insert(messageID, sender, message, timestamp, groupID,null, recipients);
     }
 
     //Insert Private Group Message with no timestamp and no topic words
-    public Insert insertPrivateGroupMessage(Integer messageID, String sender, String message, String group_name) throws DatabaseException{
+    public Insert insertPrivateGroupMessage(Integer messageID, String sender, String message, String group_name, Integer groupID) throws DatabaseException{
         Vector<String> recipients = ChatGroupMembers.members(log, connection, group_name);
-        return insert(messageID, sender, message, Timestamp.getTimestamp(), false,null, recipients);
+        return insert(messageID, sender, message, Timestamp.getTimestamp(), groupID,null, recipients);
     }
 
     //Insert Private Group Message with no timestamp and topic words
-    public Insert insertPrivateGroupMessage(Integer messageID, String sender, String message, Vector<String> topicWords, String group_name) throws DatabaseException{
+    public Insert insertPrivateGroupMessage(Integer messageID, String sender, String message, Vector<String> topicWords, String group_name, Integer groupID) throws DatabaseException{
         Vector<String> recipients = ChatGroupMembers.members(log, connection, group_name);
-        return insert(messageID, sender, message, Timestamp.getTimestamp(), false,topicWords, recipients);
+        return insert(messageID, sender, message, Timestamp.getTimestamp(), groupID,topicWords, recipients);
     }
 
 
     //Insert Private Message Functions
     Insert insertPrivateMsg(Integer messageID, String sender, String message, String timestamp, Vector<String> topicWords, Vector<String> recipients){
-        return insert(messageID, sender, message, timestamp, false, topicWords, recipients);
+        return insert(messageID, sender, message, timestamp, 0, topicWords, recipients);
     }
 
     //Insert Private message with no topic words
     Insert insertPrivateMsg(Integer messageID, String sender, String message, String timestamp, Vector<String> recipients){
-        return insert(messageID,sender,message,timestamp, false, null, recipients);
+        return insert(messageID,sender,message,timestamp, 0, null, recipients);
     }
 
     //Insert Private message with no topic words and no timestamp
     public Insert insertPrivateMsg(Integer messageID, String sender, String message, Vector<String> recipients){
-        return insert(messageID, sender, message, Timestamp.getTimestamp(), false, null, recipients);
+        return insert(messageID, sender, message, Timestamp.getTimestamp(), 0, null, recipients);
     }
 
     //Insert Private Message With no timestamp
     public Insert insertPrivateMsg(Integer messageID, String sender, String message, Vector<String> topicWords, Vector<String> recipients){
-        return insert(messageID, sender, message, Timestamp.getTimestamp(), false, topicWords, recipients);
+        return insert(messageID, sender, message, Timestamp.getTimestamp(), 0, topicWords, recipients);
     }
 
-    public Insert insert(Integer messageID, String sender, String message, String timestamp, boolean isPublic, Vector<String> topicWords, Vector<String> recipients){
+    public Insert insert(Integer messageID, String sender, String message, String timestamp, int isPublic, Vector<String> topicWords, Vector<String> recipients){
         Statement st;
         try{
             st = connection.createStatement();
@@ -114,8 +114,8 @@ public class MessageHandler extends DatabaseObject{
             log.Log("Error creating statment for Insert statement");
             return Insert.INVALID;
         }
+        String sql = "INSERT INTO Messages(message_id, sender, owner,  message, timestamp, is_public) VALUES (";
 
-        String sql = "INSERT INTO Messages(message_id, sender, message, timestamp, is_public) VALUES (";
         try{
             if(!User.exists(connection, sender)){
                 return Insert.NOEXIST_USR;
@@ -126,16 +126,27 @@ public class MessageHandler extends DatabaseObject{
                 return Insert.INVALID;
             }
 
-            int pub = isPublic ? 1 : 0;
 
             //Screen for any 's to be inserted
             message = message.replaceAll("'", "\'\'");
-
-            sql += messageID + "," + addTicks(sender) + "," + addTicks(message) + "," + addTicks(timestamp) + "," + pub+")";
+            sql += messageID + "," + addTicks(sender) + "," + addTicks(sender)+ "," + addTicks(message) + "," + addTicks(timestamp) + "," + isPublic+")";
 
             st.execute(sql);
             log.gSQL(sql);
             st.close();
+
+            //If it is a private message save a copy with the owner switched
+            if(isPublic == 0) {
+                st = connection.createStatement();
+                sql = "INSERT INTO Messages(message_id, sender, owner,  message, timestamp, is_public) VALUES (";
+                sql += messageID + "," + addTicks(sender) + "," + addTicks(recipients.get(0)) + "," + addTicks(message) + "," + addTicks(timestamp) + "," + isPublic + ")";
+                st.execute(sql);
+                st.close();
+                log.gSQL(sql);
+
+                Vector<String> owner = new Vector<>();
+                MessageReceivers.insertRecipients(log, connection, messageID, owner);
+            }
 
             //Add all recipients
             Insert addRecipients = MessageReceivers.insertRecipients(log, connection, messageID, recipients);
@@ -146,7 +157,7 @@ public class MessageHandler extends DatabaseObject{
 
 
             //Make sure public messages have at least one topic words
-            if(isPublic && topicWords.isEmpty()) {
+            if(isPublic==1 && topicWords.isEmpty()) {
                 log.Log("cannot have empty topic words on public message" + message);
                 return Insert.EMPTY_TOPIC_WORDS;
             }

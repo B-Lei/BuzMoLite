@@ -117,6 +117,7 @@ class CreateDatabase {
         String ChatGroups = "CREATE TABLE ChatGroups(" +
                 "owner VARCHAR(20)," +
                 "group_name VARCHAR(20)," +
+                "msg_id INTEGER," +
                 "duration INTEGER," +
                 "PRIMARY KEY (group_name)," +
                 "FOREIGN KEY(owner) REFERENCES Users(email_address))";
@@ -289,7 +290,7 @@ class CreateDatabase {
             for(int i=2; i<line.length; i++){
                 members.add(line[i]);
             }
-            chatGroups.insertGroupAndUsers(line[1],line[0],2,members);
+            chatGroups.insertGroupAndUsers(line[1],line[0],database.getNewGroup(), 2,members);
         }
     }
 
@@ -299,7 +300,8 @@ class CreateDatabase {
         String[] line;
 
         while ((line = csv.getNextLine()) != null) {
-            message.insertPrivateGroupMessage(database.getNewMsg(),line[1],line[2],line[3],line[0]);
+            Integer msgID = chatGroups.getMsgId(log, connection,line[0]);
+            message.insertPrivateGroupMessage(database.getNewMsg(),line[1],line[2],line[3],msgID);
         }
     }
 

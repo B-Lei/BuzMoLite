@@ -26,6 +26,7 @@ public class Database {
     private Connection connection = null;
     private AppProperties properties = null;
     private int newMsg = 0;
+    private int newGroup = 0;
 
     private OracleDataSource Osource = null;
     private MysqlDataSource Msource = null;
@@ -102,6 +103,11 @@ public class Database {
     public int getNewMsg(){
         newMsg++;
         return newMsg - 1;
+    }
+
+    public int getNewGroup(){
+        newGroup++;
+        return newGroup -1;
     }
 
     public Connection getConnection(){
