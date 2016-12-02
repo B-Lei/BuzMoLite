@@ -264,6 +264,7 @@ public class MessageHandler extends DatabaseObject{
             log.gSQL(sql);
 
         }catch(Exception e){
+            log.Log(e.getMessage());
             log.bSQL(sql);
         }
     }
