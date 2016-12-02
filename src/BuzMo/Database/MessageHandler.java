@@ -12,13 +12,13 @@ import java.util.Vector;
  * Created by lucas on 11/28/2016.
  *CRUD Class to handle all CRUD operations on Messages
  */
-public class Message extends DatabaseObject{
 
-    public Message(Logger log, Connection connection) throws DatabaseException {
+public class MessageHandler extends DatabaseObject{
+
+    public MessageHandler(Logger log, Connection connection) throws DatabaseException {
         super(log, connection);
     }
 
-    
     public static boolean exists(Logger log, Connection connection, Integer messageID) throws DatabaseException {
         String sql = "";
 
@@ -122,7 +122,7 @@ public class Message extends DatabaseObject{
                 return Insert.NOEXIST_USR;
             }
 
-            if(Message.exists(log, connection, messageID)){
+            if(MessageHandler.exists(log, connection, messageID)){
                 log.Log("Couldn't create statement in isnert");
                 return Insert.INVALID;
             }
@@ -163,6 +163,17 @@ public class Message extends DatabaseObject{
         }
 
         return Insert.SUCCESS;
+    }
+
+
+
+    //Get all users who you have sent a private message or they sent you one
+    public Vector<String> getPrivateUserMessages(String email) throws DatabaseException{
+        Vector<String> response = new Vector<>();
+        String sql;
+
+
+        return response;
     }
 
 }

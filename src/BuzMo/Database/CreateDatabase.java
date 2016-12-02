@@ -19,7 +19,7 @@ class CreateDatabase {
     private Logger log;
     private Connection connection;
     private CSVLoader csv;
-    private Message message;
+    private MessageHandler message;
     private UserTopicWords userTopicWords;
     private CircleOfFriends circleOfFriends;
     private ChatGroups chatGroups;
@@ -32,7 +32,7 @@ class CreateDatabase {
         this.database = db;
 
         //Initialize CRUD Classes
-         this.message = new Message(log, connection);
+         this.message = new MessageHandler(log, connection);
          this.userTopicWords = new UserTopicWords(log, connection);
          this.circleOfFriends = new CircleOfFriends(log, connection);
          this.chatGroups = new ChatGroups(log, connection);

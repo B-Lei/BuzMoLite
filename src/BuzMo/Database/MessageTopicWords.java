@@ -57,7 +57,7 @@ public class MessageTopicWords extends DatabaseObject{
             return Insert.SUCCESS;
         }
 
-        if(!Message.exists(log, connection, messageID)){
+        if(!MessageHandler.exists(log, connection, messageID)){
             log.Log("cannot add topic words, message "+messageID+" doesn't exist");
             return Insert.NOEXIST_MSG;
         }

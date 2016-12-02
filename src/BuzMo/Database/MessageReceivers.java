@@ -31,7 +31,7 @@ public class MessageReceivers extends DatabaseObject {
         }
 
         //Check if the user exists
-        if(!Message.exists(log, connection,messageID)){
+        if(!MessageHandler.exists(log, connection,messageID)){
             throw new DatabaseException("Cannot find recipients for non existent message: "+messageID);
         }
         String sql = "SELECT recipient FROM messagereceivers C WHERE C.message_id="+messageID;
@@ -68,7 +68,7 @@ public class MessageReceivers extends DatabaseObject {
             return Insert.SUCCESS;
         }
 
-        if(!Message.exists(log, connection, messageID)){
+        if(!MessageHandler.exists(log, connection, messageID)){
             return Insert.NOEXIST_MSG;
         }
 
@@ -101,4 +101,27 @@ public class MessageReceivers extends DatabaseObject {
         return Insert.SUCCESS;
     }
 
+    //Get all messageIDs that a user has received
+    public static Vector<Integer> incomingMessages(Logger log, Connection conn, String email) throws DatabaseException{
+        Vector<Integer> response = new Vector<>();
+
+        String sql = "SELECT * FROM MessageReceivers WHERE receiver="+addTicks(email);
+        try{
+            Statement st = conn.createStatement();
+            st.execute(sql);
+            ResultSet rs = st.getResultSet();
+
+            while(rs.next()){
+                response.add(rs.getInt(1));
+            }
+
+            rs.close();
+            st.close();
+
+        }catch(Exception e){
+            throw new DatabaseException(e);
+        }
+
+        return response;
+    }
 }
