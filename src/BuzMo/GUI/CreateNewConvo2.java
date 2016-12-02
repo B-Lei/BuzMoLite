@@ -23,10 +23,27 @@ public class CreateNewConvo2 extends View {
     public CreateNewConvo2(Scanner scanner, Logger log, Connection connection, String yourUsername) {
         super(scanner, log, connection, yourUsername);
         try {
-            this.friends = CircleOfFriends.getCircleOfFriends(log, connection, yourUsername);
+            String s="";
+            while(!s.contentEquals("exit")){
+                this.friends = CircleOfFriends.getCircleOfFriends(log, connection, yourUsername);
+                display();
+
+                s = scanner.next();
+                if(friends.contains(s)){
+                    new FriendConvo(scanner, yourUsername, s);
+                }
+            }
         }catch(Exception e){
             log.Log(e.getMessage());
         }
+
+
+
+
+
+    }
+
+    private void display(){
         //Display all friends
         o.setAlignment(GUIOutput.ALIGN.CENTER);
         o.writeLine();
@@ -40,15 +57,6 @@ public class CreateNewConvo2 extends View {
                 o.write(s);
             }
         }
-
-        String s="";
-        while(!s.contentEquals("exit")){
-            s = scanner.next();
-            if(friends.contains(s)){
-                log.Log("USER FOUND");
-            }
-        }
-
     }
 
 

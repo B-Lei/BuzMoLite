@@ -23,7 +23,7 @@ public class Database {
     private static Database instance = new Database();
     private boolean CSIL = true;
 
-    private Logger log = null;
+    public Logger log = Logger.getInstance();
     private Connection connection = null;
     private AppProperties properties = null;
     private int newMsg = 0;
@@ -36,6 +36,7 @@ public class Database {
     public CircleOfFriends circleOfFriends;
     public ChatGroupInvites chatGroupInvites;
     public ChatGroups chatGroups;
+    public MessageHandler messageHandler;
 
 
     public static Database getInstance(){
@@ -49,9 +50,6 @@ public class Database {
 
     //Initialize Database and Establish a connection
     private Database(){
-
-        //Hook up the log to the JDBC Class
-        this.log = Logger.getInstance();
 
         //Read in appropriate username and password
         String username;
@@ -117,7 +115,7 @@ public class Database {
             this.chatGroupInvites = new ChatGroupInvites(log, connection, chatGroups);
             this.friendRequests = new FriendRequests(log, connection, circleOfFriends);
             this.groupInvites = new GroupInvites(log, connection);
-
+            this.messageHandler = new MessageHandler(log, connection);
         }catch(Exception e){
             log.Log("Error trying initialize database handlers"+e.getMessage());
         }

@@ -1,9 +1,6 @@
 package BuzMo.GUI;
 
 import BuzMo.Database.*;
-import BuzMo.Logger.Logger;
-
-import java.sql.Connection;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -12,22 +9,16 @@ import java.util.Vector;
  * This is a ConvoView for personal MyCircle messages.
  */
 public class FriendConvo extends View{
-    Database db = Database.getInstance();
-    String friend;
-    Vector<Message> messages;
-    MessageHandler msg;
+    private Database db = Database.getInstance();
+    private String friend;
+    private Vector<Message> messages;
+    private MessageHandler msg = db.messageHandler;
     //Determines which messages will be displayed
-    int messageStart = 0;
+    private int messageStart = 0;
 
-    FriendConvo(Scanner scanner, Logger log, MessageHandler handler, Connection connection, String yourUsername, String friendUsername) {
-        super(scanner, log, connection,yourUsername);
+    FriendConvo(Scanner scanner, String yourUsername, String friendUsername) {
+        super(scanner, Database.getInstance().log, Database.getInstance().getConnection(),yourUsername);
         this.friend = friendUsername;
-        try {
-            msg = new MessageHandler(log, connection);
-        }
-        catch (Exception e) {
-            log.Log("ERROR couldnt init Message handler " + e.getMessage());
-        }
 
 
         String in = "";
@@ -54,7 +45,7 @@ public class FriendConvo extends View{
                             o.write("Insert Message: ");
                             String message = scanner.next();
 
-                            handler.insertPrivateMsg(db.getNewMsg(), yourUsername, message, recipient);
+                            msg.insertPrivateMsg(db.getNewMsg(), yourUsername, message, recipient);
                             break;
                         case (4)://Delete a post
                             o.write("Insert MessageID you wish to delete: ");
@@ -96,7 +87,7 @@ public class FriendConvo extends View{
                                     break;
                                 }
                                 response = new Integer(in);
-                                db.chatGroupInvites.accept(cgr.get(i), yourUsername);
+                                db.chatGroupInvites.accept(cgr.get(response), yourUsername);
                             }
                             o.empty();
                             o.writeLine();
@@ -120,7 +111,7 @@ public class FriendConvo extends View{
                                     break;
                                 }
                                 response = new Integer(in);
-                                db.friendRequests.accept(fr.get(i), yourUsername);
+                                db.friendRequests.accept(fr.get(response), yourUsername);
                             }
                             o.empty();
                             o.writeLine();
