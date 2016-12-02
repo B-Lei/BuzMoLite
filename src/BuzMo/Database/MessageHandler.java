@@ -1,13 +1,10 @@
 package BuzMo.Database;
 
-import BuzMo.GUI.ExistingConvos;
 import BuzMo.Logger.Logger;
-import com.sun.xml.internal.ws.spi.db.DatabindingException;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.sql.Time;
 import java.util.Vector;
 
 /**
