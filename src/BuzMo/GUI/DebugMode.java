@@ -5,6 +5,7 @@ import BuzMo.Database.Timestamp;
 
 import java.sql.Connection;
 import java.util.Scanner;
+import java.util.Vector;
 
 /**
  * Created by Ben on 11/26/2016.
@@ -41,17 +42,28 @@ public class DebugMode extends View {
         else {
             try {
                 System.out.println("input: "+input);
+
                 // Unconfirmed if this works or not
                 String inputNoWhitespace = input.replace(" ", "");
                 System.out.println("stripped input: "+input);
-                // 1(Day) 2(Month) 3(Year) 4(Hour) 5(Minute) 6(first letter of AM/PM) 7(second letter of AM/PM)
-                String[] timeStamp = inputNoWhitespace.split("[.|:A-Z]");
-                for (int i=0; i<timeStamp.length; i++) {
-                    System.out.println("Component found: "+timeStamp[i]);
+
+                // 1(Day) 2(Month) 3(Year) 4(Hour) 5(MinuteAM/PM)
+                String[] tempTimeStamp = inputNoWhitespace.split("[.|:]");
+                for (int i=0; i<tempTimeStamp.length; i++) {
+                    System.out.println("Component found: "+tempTimeStamp[i]);
                 }
+                Vector<String> timeStamp = new Vector<>();
+                timeStamp.copyInto(tempTimeStamp);
+
                 // Combine to form AM and PM in index 6
-                timeStamp[6] = timeStamp[6]+timeStamp[7];
-                System.out.println("Detected Timestamp: "+timeStamp);
+                String str = timeStamp.elementAt(5);
+                str = str.substring(0, 1);
+                String ampm = str.substring(Math.max(str.length() - 2, 0));
+                timeStamp.setElementAt(str, 5);
+                timeStamp.add(ampm);
+                for (int i=0; i<timeStamp.size()-1; i++) {
+                    System.out.println("Found final component: "+timeStamp.elementAt(i));
+                }
             } catch (Exception except) {
                 System.out.println("DebugMode -- EXCEPTION CAUGHT: " + except.getMessage());
                 log.Log("DebugMode -- Error: " + except.getMessage());
