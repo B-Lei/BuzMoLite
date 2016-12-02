@@ -130,6 +130,7 @@ public class MessageHandler extends DatabaseObject{
 
             //Screen for any 's to be inserted
             message = message.replaceAll("'", "\'\'");
+            log.Log("messageID for message"+message);
             sql += messageID + "," + addTicks(sender) + "," + addTicks(sender)+ "," + addTicks(message) + "," + addTicks(timestamp) + "," + isPublic+")";
 
             st.execute(sql);
@@ -146,6 +147,7 @@ public class MessageHandler extends DatabaseObject{
             //If it is a private message save a copy with the owner switched
             if(isPublic == 0) {
                 int id2 = Database.getInstance().getNewMsg();
+                log.Log("id2 for "+message);
                 st = connection.createStatement();
                 sql = "INSERT INTO Messages(message_id, sender, owner,  message, timestamp, is_public) VALUES (";
                 sql += id2 + "," + addTicks(sender) + "," + addTicks(recipients.get(0)) + "," + addTicks(message) + "," + addTicks(timestamp) + "," + isPublic + ")";
