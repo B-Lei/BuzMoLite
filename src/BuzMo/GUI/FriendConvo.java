@@ -147,6 +147,8 @@ public class FriendConvo extends View{
         o.writeLine();
         o.setAlignment(GUIOutput.ALIGN.CENTER);
         o.write("Enter the Action Number or type exit");
+
+        o.setAlignment(GUIOutput.ALIGN.LEFT);
         o.write("0: ScrollUp");
         o.write("1: ScrollDown");
         o.write("2: Create New Post");
