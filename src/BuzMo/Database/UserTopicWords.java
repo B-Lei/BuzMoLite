@@ -50,6 +50,38 @@ public class UserTopicWords extends DatabaseObject {
         return response;
     }
 
+    //Get All user_id for a topic word
+    public Vector<String> getUsersWithTopicWord(String topicWord) throws DatabaseException {
+
+        Statement st;
+        try{
+            st = connection.createStatement();
+        }catch(Exception e ){
+            log.Log("Couldn't create new statement to get usertopicwords");
+            throw new DatabaseException(e);
+        }
+
+        Vector<String> response = new Vector<>();
+        String sql = "SELECT user_id FROM usertopicwords WHERE word="+topicWord;
+        try {
+            st.execute(sql);
+
+            //Get results
+            ResultSet rs = st.getResultSet();
+            while(rs.next()){
+                response.add(rs.getString(1));
+            }
+
+            rs.close();
+            st.close();
+        } catch (SQLException e) {
+            log.Log("Invalid SQL: "+sql);
+            throw new DatabaseException(e);
+        }
+
+        return response;
+    }
+
     //Insert New Topic Words
     public Insert insert(String userID, Vector<String> words) throws DatabaseException {
         Statement st;
