@@ -234,6 +234,35 @@ public class User extends DatabaseObject{
 
     }
 
+    public static int getManagerStatus(Logger log, Connection connection, String email) throws DatabaseException{
+        Statement st = getSt(connection, log);
+
+        String sql = "SELECT isManager FROM USERS WHERE email_address="+addTicks(email);
+
+        String response = "";
+        int newResponse = -1;
+
+        try{
+            st.execute(sql);
+            ResultSet rs = st.getResultSet();
+            rs.next();
+            response = rs.getString(1);
+            newResponse = Integer.parseInt(response);
+
+            rs.close();
+            st.close();
+
+            log.gSQL(sql);
+
+        } catch (SQLException e) {
+            log.bSQL(sql);
+            log.Log("error retrieving user password");
+            throw new DatabaseException(e);
+        }
+        return newResponse;
+
+    }
+
 
 
 

@@ -43,12 +43,12 @@ public class ManagerToggle extends View {
             return false;
 
         try {
-            // INCOMPLETE - add SQL to log in as Manager
             if (input == 1) {
+                User.makeManager(log, connection, yourUsername);
                 o.write("Logged in as Manager!");
             }
-            // INCOMPLETE - add SQL to log out as Manager
             else {
+                User.makeUser(log, connection, yourUsername);
                 o.write("Logged out as Manager!");
             }
         } catch(Exception except) {

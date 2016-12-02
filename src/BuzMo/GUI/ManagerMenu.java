@@ -35,9 +35,15 @@ public class ManagerMenu extends View {
         log.Log("GUI -- ManagerMenu properly loaded");
     }
 
-    // THIS IS INCOMPLETE! ADD SQL QUERIES TO CHECK IF MANAGER
     private boolean checkManagerStatus() {
-        return true;
+        try {
+            int managerStatus = User.getManagerStatus(log, connection, yourUsername);
+            return (managerStatus == 1);
+        } catch (Exception except) {
+            System.out.println("Couldn't check manager status!");
+            log.Log("Couldn't check manager status!");
+        }
+        return false;
     }
 
     private void writeMenu(){
@@ -130,7 +136,12 @@ public class ManagerMenu extends View {
 
         try {
             User newUser = new User(log, connection, name, email, password, phone, screenName);
-            User.insert(connection, newUser, isManager);
+            if (User.exists(newUser)) {
+                System.out.println("User already exists!");
+                log.Log("User already exists!");
+            }
+            else
+                User.insert(connection, newUser, isManager);
         } catch (Exception except) {
             System.out.println("Tried to create an invalid user!");
             log.Log("Tried to create an invalid user!");
