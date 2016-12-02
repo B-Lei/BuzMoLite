@@ -10,16 +10,10 @@ import java.util.Scanner;
  * Created by Ben on 11/26/2016.
  * This is created after a successful login. The portal for all other options.
  */
-public class MainMenu {
-    private Logger log;
-    private Scanner scanner;
-    private String user;
-    private GUIOutput write = GUIOutput.getInstance();
+public class MainMenu extends View {
 
-    MainMenu(Scanner scanner, Logger log, String yourUsername) {
-        this.log = log;
-        this.scanner = scanner;
-        this.user = yourUsername;
+    MainMenu(Scanner scanner, Logger log, Connection connection, String yourUsername) {
+        super(log, connection); 
 
         writeMenu();
 

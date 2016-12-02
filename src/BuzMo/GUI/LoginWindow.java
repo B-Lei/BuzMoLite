@@ -61,7 +61,7 @@ public class LoginWindow {
             String pass = User.getPassword(log, connection, usernameInput);
 
             if (passwordInput.equals(pass)) {
-                new MainMenu(userInput, log, usernameInput);
+                new MainMenu(userInput, log, connection, usernameInput);
             }
             else {
                 System.out.println("LoginWindow -- Invalid password entered!");
