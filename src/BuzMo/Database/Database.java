@@ -31,17 +31,10 @@ public class Database {
 
     private MysqlDataSource Msource = null;
 
-    public FriendRequests friendRequests;
-    public GroupInvites groupInvites;
-    public CircleOfFriends circleOfFriends;
-    public ChatGroupInvites chatGroupInvites;
-    public ChatGroups chatGroups;
-    public MessageHandler messageHandler;
 
 
-    public static Database getInstance(){
-        return instance;
-    }
+
+
 
 
     //Choose which URL to use depending on where you are running the program
@@ -108,17 +101,7 @@ public class Database {
             e.printStackTrace();
         }
 
-        //INIT DBASE OBJECTS
-        try {
-            this.circleOfFriends = new CircleOfFriends(log, connection);
-            this.chatGroups = new ChatGroups(log, connection);
-            this.chatGroupInvites = new ChatGroupInvites(log, connection, chatGroups);
-            this.friendRequests = new FriendRequests(log, connection, circleOfFriends);
-            this.groupInvites = new GroupInvites(log, connection);
-            this.messageHandler = new MessageHandler(log, connection);
-        }catch(Exception e){
-            log.Log("Error trying initialize database handlers"+e.getMessage());
-        }
+
     }
 
     //Closes all connections

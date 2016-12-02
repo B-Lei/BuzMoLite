@@ -1,6 +1,9 @@
 package BuzMo.GUI;
 
 import BuzMo.Database.*;
+import BuzMo.Logger.Logger;
+
+import java.sql.Connection;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -9,15 +12,33 @@ import java.util.Vector;
  * This is a ConvoView for personal MyCircle messages.
  */
 public class FriendConvo extends View{
-    private Database db = Database.getInstance();
     private String friend;
     private Vector<Message> messages;
-    private MessageHandler msg = db.messageHandler;
+    private MessageHandler msg;
     //Determines which messages will be displayed
     private int messageStart = 0;
+    private ChatGroupInvites chatGroupInvites;
+    private ChatGroups chatGroups;
+    private CircleInvites circleInvites;
+    private CircleOfFriends circleOfFriends;
 
-    FriendConvo(Scanner scanner, String yourUsername, String friendUsername) {
-        super(scanner, Database.getInstance().log, Database.getInstance().getConnection(),yourUsername);
+    FriendConvo(Scanner scanner, Logger log, Connection connection, String yourUsername, String friendUsername) {
+        super(scanner, log, connection,yourUsername);
+        AdminFile admin = null;
+
+        try {
+            circleInvites = new CircleInvites(log, connection);
+            circleOfFriends = new CircleOfFriends(log, connection);
+            msg = new MessageHandler(log, connection);
+            admin = new AdminFile(log, connection);
+            chatGroups = new ChatGroups(log, connection);
+            chatGroupInvites = new ChatGroupInvites(log, connection, chatGroups);
+
+
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+            log.Log(e.getMessage());
+        }
         this.friend = friendUsername;
 
 
@@ -48,7 +69,7 @@ public class FriendConvo extends View{
                             o.write("Insert Message: ");
                             String message = scanner.next();
 
-                            msg.insertPrivateMsg(db.getNewMsg(), yourUsername, message, recipient);
+                            msg.insertPrivateMsg(admin.getNextMessage(), yourUsername, message, recipient);
                             break;
                         case (3)://Delete a post
                             o.write("Insert MessageID you wish to delete: ");
@@ -67,13 +88,13 @@ public class FriendConvo extends View{
                                 o.write("You must be a member of "+in+" to invite a new member");
                             }
                             else{
-                                db.groupInvites.newInvite(yourUsername,friendUsername,in);
+                                chatGroupInvites.newInvite(yourUsername,friendUsername,in);
                                 o.write("Group Invite Sent");
                             }
                             break;
                         case (5):
                             o.write("Pending ChatGroup Requests ");
-                            Vector<ChatGroupInvite> cgr = db.chatGroupInvites.pendingInvites(yourUsername);
+                            Vector<ChatGroupInvite> cgr = chatGroupInvites.pendingInvites(yourUsername);
                             if(cgr.size() == 0){
                                 o.write("No Pending Friend Requests");
                             }
@@ -90,14 +111,14 @@ public class FriendConvo extends View{
                                     break;
                                 }
                                 response = new Integer(in);
-                                db.chatGroupInvites.accept(cgr.get(response), yourUsername);
+                                chatGroupInvites.accept(cgr.get(response), yourUsername);
                             }
                             o.empty();
                             o.writeLine();
                             break;
                         case (6):
                             o.write("Pending Friend Requests ");
-                            Vector<String> fr = db.friendRequests.pendingRequests(yourUsername);
+                            Vector<CircleInvite> fr = this.circleInvites.getInvites(yourUsername);
                             if(fr.size() == 0){
                                 o.write("No Pending Friend Requests");
                             }
@@ -114,7 +135,7 @@ public class FriendConvo extends View{
                                     break;
                                 }
                                 response = new Integer(in);
-                                db.friendRequests.accept(fr.get(response), yourUsername);
+                                circleInvites.accept(fr.get(response), yourUsername);
                             }
                             o.empty();
                             o.writeLine();

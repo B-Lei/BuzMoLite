@@ -17,6 +17,12 @@ public class ChatGroupInvites extends DatabaseObject{
         this.chatGroups = chatGroups;
     }
 
+    public void newInvite(String host, String invitee, String group){
+        String sql = "INSERT INTO ChatGroupInvites(host, guest, group_name) VALUES(" +
+                addTicks(host)+","+addTicks(invitee)+","+addTicks(group)+")";
+        runSQL(log, connection, sql);
+    }
+
     public Vector<ChatGroupInvite> pendingInvites(String guest){
         Vector<ChatGroupInvite> response = new Vector<>();
 
@@ -35,7 +41,7 @@ public class ChatGroupInvites extends DatabaseObject{
     }
 
     public void accept(ChatGroupInvite invite, String guest){
-        String sql = "DROP FROM MyCircleInvites WHERE host="+addTicks(invite.host)+" AND guest="+addTicks(guest);
+        String sql = "DROP FROM ChatGroupInvites WHERE host="+addTicks(invite.host)+" AND guest="+addTicks(guest);
         sql+= " AND group_name="+addTicks(invite.groupName);
         runSQL(log, connection, sql);
         try {

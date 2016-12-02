@@ -155,6 +155,14 @@ class CreateDatabase {
 
         writeTable("MyCircleInvites", MyCircleInvites);
 
+        String Admin = " CREATE TABLE Admin(" +
+                "instance VARCHAR(10)," +
+                "message_id INTEGER," +
+                "group_id INTEGER," +
+                "PRIMARY KEY(instance))";
+
+        writeTable("Admin", Admin);
+
     }
 
 
@@ -193,6 +201,7 @@ class CreateDatabase {
         tables.add("chatgroups");
         tables.add("messages");
         tables.add("users");
+        tables.add("admin");
 
 
 
@@ -234,6 +243,8 @@ class CreateDatabase {
         InsertGroupMsgs();
 
         SetManagers();
+
+
     }
 
     //Input Users into Users table
