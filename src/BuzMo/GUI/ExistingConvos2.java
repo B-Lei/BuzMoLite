@@ -46,10 +46,8 @@ public class ExistingConvos2 extends View{
         while(!s.contentEquals("exit")){
             s = scanner.next();
             if(friends.contains(s)){
-                System.out.println("FOund");
+                new FriendConvo(scanner,log, connection,user, s);
             }
         }
-
-
     }
 }

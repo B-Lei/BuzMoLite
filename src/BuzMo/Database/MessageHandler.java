@@ -192,7 +192,10 @@ public class MessageHandler extends DatabaseObject{
                 log.gSQL(sql);
                 rs = st.getResultSet();
                 rs.next();
-                response.add(rs.getString(1));
+
+                String current = rs.getString(1);
+                if(!response.contains(current))
+                    response.add(current);
 
                 rs.close();
             }
@@ -219,8 +222,11 @@ public class MessageHandler extends DatabaseObject{
 
                 rs = st.getResultSet();
                 rs.next();
-                response.add(rs.getString(1));
-                rs.close();
+
+                //If it is a unique user, add it to the response
+                String current = rs.getString(1);
+                if(!response.contains(current))
+                    response.add(current);                rs.close();
             }
             st.close();
 
