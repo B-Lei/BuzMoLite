@@ -125,6 +125,7 @@ public class ChatGroups extends DatabaseObject{
             ResultSet res = st.getResultSet();
             res.next();
             response = res.getInt(1);
+            log.Log("MessageID of "+name);
 
             res.close();
             st.close();
