@@ -96,6 +96,7 @@ public class ManagerMenu extends View {
             Vector<Vector<String>> userResults = new Vector<Vector<String>>();
             for (int i = 0; i < input.length; i++) {
                 int inputType = getStringType(input[i]); // Get the string type
+                System.out.println("Got type "+inputType);
                 userResults.add(i, handleQuery(inputType, input[i])); // Find matches for it and add to results
                 if (!userResults.elementAt(i).isEmpty()) { // If there are matches, print it
                     String printMsg = userResults.elementAt(i).toString();
@@ -137,8 +138,18 @@ public class ManagerMenu extends View {
         // Generates a systemwide report of: 1) # new messages 2) # message reads 3) average # new message reads
         //      4) average # reads for msgs in last report 5) top 3 msgs by read count 6) top 3 users by msg count
         //      7) # users who sent < 3 msgs 8) most read msgs for each topic word
+        o.setAlignment(GUIOutput.ALIGN.CENTER);
+        o.write("BuzMo Report - Past 7 days");
+        o.writeLine();
 
-
+        System.out.println("1. Total # of new Messages: ");
+        System.out.println("2. Total # Message reads: ");
+        System.out.println("3. Average # of new Message reads: ");
+        System.out.println("4. Average # of new Message reads (last report): ");
+        System.out.println("5. Top 3 Messages (by read count): ");
+        System.out.println("6. Top 3 Active Users (by msg count): ");
+        System.out.println("7. Total # of Inactive Users (<3 msgs): ");
+        System.out.println("8. Top Message for each topic word (by read count): ");
     }
 
     // Helper function used in searchUsers to get the string type
@@ -167,7 +178,28 @@ public class ManagerMenu extends View {
                     // SQL query for Users with matching email
                     break;
                 case 2:
+                    // NEED TO BREAK TIMESTAMP UP INTO COMPONENTS!
+                    // Format example: 11.1.2016| 5:00 PM
+                    String regex = "^([1-9]|[12][0-9]|3[01]).([1-9]|1[012]).(20\\d\\d)[ ]*\\|[ ]*([1-9]|1[012])\\:([0-5][0-9])[ ]*(PM|AM)$";
+                    String regex2 = "^([1-9]|[12][0-9]|3[01]).(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov).(20\\d\\d)[ ]*\\|[ ]*([1-9]|1[012])\\:([0-5][0-9])[ ]*(PM|AM)$";
+                    if (!(inputString.matches(regex) || inputString.matches(regex2))) {
+                        System.out.println("Invalid Timestamp format entered");
+                        log.Log("Invalid Timestamp format entered");
+                    }
                     // SQL query for Users with matching message timestamps
+                    else {
+                        try {
+                            // Unconfirmed if this works or not
+                            String inputNoWhitespace = inputString.replace(" ", "");
+                            // 1(Day) 2(Month) 3(Year) 4(Hour) 5(Minute) 6(first letter of AM/PM) 7(second letter of AM/PM)
+                            String[] timeStamp = inputNoWhitespace.split("[.|:A-Z]");
+                            timeStamp[6] = timeStamp[6]+timeStamp[7];
+                            System.out.println("Detected Timestamp: "+timeStamp);
+                        } catch (Exception except) {
+                            System.out.println("DebugMode -- EXCEPTION CAUGHT: " + except.getMessage());
+                            log.Log("DebugMode -- Error: " + except.getMessage());
+                        }
+                    }
                     break;
                 case 3:
                     // SQL query for Users with a matching # of messages in the past 7 days

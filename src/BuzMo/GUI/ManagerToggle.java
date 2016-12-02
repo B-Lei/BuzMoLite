@@ -43,11 +43,11 @@ public class ManagerToggle extends View {
         try {
             // INCOMPLETE - add SQL to log in as Manager
             if (input == 1) {
-
+                o.write("Logged in as Manager!");
             }
             // INCOMPLETE - add SQL to log out as Manager
             else {
-
+                o.write("Logged out as Manager!");
             }
         } catch(Exception except) {
             System.out.println("ManagerToggle -- EXCEPTION CAUGHT: "+except.getMessage());
