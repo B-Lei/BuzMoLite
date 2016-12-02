@@ -63,7 +63,7 @@ public class DebugMode extends View {
                 // Fix minuteAMPM issue
                 String str = timeStamp.elementAt(4);
                 String ampm = str.substring(Math.max(str.length() - 2, 0));
-                str = str.substring(0, 1);
+                str = str.substring(0, 2);
 
                 timeStamp.setElementAt(str, 4);
                 System.out.println("New minute: "+timeStamp.elementAt(4));
@@ -72,7 +72,7 @@ public class DebugMode extends View {
                 System.out.println("New ampm: "+timeStamp.elementAt(5));
 
                 // Print the Vector
-                for (int i=0; i<timeStamp.size()-1; i++) {
+                for (int i=0; i<timeStamp.size(); i++) {
                     System.out.println("Found final component: "+timeStamp.elementAt(i));
                 }
             } catch (Exception except) {
