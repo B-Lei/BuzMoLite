@@ -4,6 +4,7 @@ import BuzMo.Logger.Logger;
 import BuzMo.Database.Timestamp;
 
 import java.sql.Connection;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -52,8 +53,7 @@ public class DebugMode extends View {
                 for (int i=0; i<tempTimeStamp.length; i++) {
                     System.out.println("Component found: "+tempTimeStamp[i]);
                 }
-                Vector<String> timeStamp = new Vector<>();
-                timeStamp.copyInto(tempTimeStamp);
+                Vector<String> timeStamp = new Vector(Arrays.asList(tempTimeStamp));
 
                 // Current Vector contents
                 for (int i=0; i<timeStamp.size()-1; i++) {
