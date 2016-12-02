@@ -130,7 +130,7 @@ public class MessageHandler extends DatabaseObject{
 
             //Screen for any 's to be inserted
             message = message.replaceAll("'", "\'\'");
-            log.Log("messageID for message"+message);
+            log.Log("messageID: "+messageID+" for message "+message);
             sql += messageID + "," + addTicks(sender) + "," + addTicks(sender)+ "," + addTicks(message) + "," + addTicks(timestamp) + "," + isPublic+")";
 
             st.execute(sql);
