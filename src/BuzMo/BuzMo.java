@@ -4,11 +4,8 @@ import BuzMo.Database.Database;
 import BuzMo.Database.DatabaseException;
 import BuzMo.GUI.GUI;
 import BuzMo.Logger.Logger;
-import BuzMo.Logger.LoggerException;
-import BuzMo.Properties.AppProperties;
-import sun.rmi.runtime.Log;
 
-import javax.security.auth.login.LoginException;
+
 
 import static java.lang.System.exit;
 

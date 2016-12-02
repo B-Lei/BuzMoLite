@@ -1,6 +1,7 @@
 package BuzMo.GUI;
 
 import BuzMo.Database.Database;
+import BuzMo.Database.DatabaseException;
 import BuzMo.Database.Message;
 import BuzMo.Database.MessageHandler;
 import BuzMo.Logger.Logger;
@@ -17,13 +18,13 @@ import java.util.Vector;
 public class FriendConvo extends View{
     String friend;
     Vector<Message> messages;
+    MessageHandler msg;
 
     FriendConvo(Scanner scanner, Logger log, MessageHandler handler, Connection connection, String yourUsername, String friendUsername) {
         super(scanner, log, connection,yourUsername);
         this.friend = friendUsername;
         try {
-            MessageHandler msg = new MessageHandler(log, connection);
-            this.messages = msg.getPrivateMessagesBetween(yourUsername, friendUsername);
+            msg = new MessageHandler(log, connection);
         }
         catch (Exception e) {
             log.Log("ERROR couldnt init Message handler " + e.getMessage());
@@ -69,6 +70,7 @@ public class FriendConvo extends View{
     }
 
     private void display(){
+        loadPosts();
         o.setAlignment(GUIOutput.ALIGN.CENTER);
         o.writeLine();
         o.writeLine();
@@ -89,5 +91,14 @@ public class FriendConvo extends View{
         o.write("4: Send ChatGroup Invite to "+friend);
         o.write("5: View my pending ChatGroup Invites");
         o.write("6: View my pending MyCircle Invites");
+    }
+
+    private void loadPosts(){
+        try {
+            this.messages = msg.getPrivateMessagesBetween(yourUsername, this.friend);
+        } catch (DatabaseException e) {
+            log.Log(e.getMessage());
+        }
+
     }
 }
