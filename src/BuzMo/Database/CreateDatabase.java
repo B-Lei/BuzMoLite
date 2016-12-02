@@ -138,7 +138,7 @@ class CreateDatabase {
                 "host VARCHAR(20)," +
                 "guest VARCHAR(20)," +
                 "PRIMARY KEY(group_name, guest)," +
-                "FOREIGN KEY(group_name) REFERENCES Groups(group_name)," +
+                "FOREIGN KEY(group_name) REFERENCES ChatGroups(group_name)," +
                 "FOREIGN KEY(host) REFERENCES Users(email_address)," +
                 "FOREIGN KEY(guest) REFERENCES Users(email_address))";
 
