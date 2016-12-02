@@ -213,7 +213,7 @@ public class MessageHandler extends DatabaseObject{
 
             for(Integer i: messages) {
                 //Find all Users that sent the messages to you
-                sql = "SELECT email_address FROM Users WHERE message_id=" +i;
+                sql = "SELECT sender FROM messages WHERE message_id=" +i;
                 st.execute(sql);
                 log.gSQL(sql);
 
