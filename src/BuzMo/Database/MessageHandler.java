@@ -135,6 +135,13 @@ public class MessageHandler extends DatabaseObject{
             log.gSQL(sql);
             st.close();
 
+            //Add all recipients
+            Insert addRecipients = MessageReceivers.insertRecipients(log, connection, messageID, recipients);
+            if(addRecipients != Insert.SUCCESS){
+                log.Log("couldn't add msg recipients "+addRecipients.toString());
+                return addRecipients;
+            }
+
             //If it is a private message save a copy with the owner switched
             if(isPublic == 0) {
                 messageID++;
@@ -147,14 +154,16 @@ public class MessageHandler extends DatabaseObject{
 
                 Vector<String> owner = new Vector<>();
                 MessageReceivers.insertRecipients(log, connection, messageID, owner);
+
+                //Add all recipients
+                addRecipients = MessageReceivers.insertRecipients(log, connection, messageID, recipients);
+                if(addRecipients != Insert.SUCCESS){
+                    log.Log("couldn't add msg recipients "+addRecipients.toString());
+                    return addRecipients;
+                }
             }
 
-            //Add all recipients
-            Insert addRecipients = MessageReceivers.insertRecipients(log, connection, messageID, recipients);
-            if(addRecipients != Insert.SUCCESS){
-                log.Log("couldn't add msg recipients "+addRecipients.toString());
-                return addRecipients;
-            }
+
 
 
             //Make sure public messages have at least one topic words
