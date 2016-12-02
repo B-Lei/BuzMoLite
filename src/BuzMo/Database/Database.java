@@ -132,12 +132,12 @@ public class Database {
 
     //Gets
     public int getNewMsg(){
-        newMsg++;
+        this.newMsg = this.newMsg+ 1;
         return newMsg;
     }
 
     public int getNewGroup(){
-        newGroup++;
+        this.newGroup = this.newGroup+1;
         return newGroup;
     }
 
