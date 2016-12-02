@@ -2,6 +2,7 @@ package BuzMo.Database;
 
 import BuzMo.Logger.Logger;
 
+import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -144,7 +145,7 @@ public class MessageHandler extends DatabaseObject{
 
             //If it is a private message save a copy with the owner switched
             if(isPublic == 0) {
-                messageID++;
+                int id2 = Database.getInstance().getNewMsg();
                 st = connection.createStatement();
                 sql = "INSERT INTO Messages(message_id, sender, owner,  message, timestamp, is_public) VALUES (";
                 sql += messageID + "," + addTicks(sender) + "," + addTicks(recipients.get(0)) + "," + addTicks(message) + "," + addTicks(timestamp) + "," + isPublic + ")";
@@ -155,13 +156,12 @@ public class MessageHandler extends DatabaseObject{
                 Vector<String> other = new Vector<>();
                 other.add(sender);
                 //Add all recipients
-                addRecipients = MessageReceivers.insertRecipients(log, connection, messageID, other);
+                addRecipients = MessageReceivers.insertRecipients(log, connection, id2, other);
                 if(addRecipients != Insert.SUCCESS){
                     log.Log("couldn't add msg recipients "+addRecipients.toString());
                     return addRecipients;
                 }
             }
-
 
 
 
@@ -173,6 +173,7 @@ public class MessageHandler extends DatabaseObject{
 
             //Insert topic words
             MessageTopicWords.insert(log, connection, messageID, topicWords);
+
 
 
         }catch (Exception e){

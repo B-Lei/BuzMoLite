@@ -32,15 +32,15 @@ public class FriendConvo extends View{
                 try {
                     Integer response = new Integer(in);
                     switch (response) {
-                        case(1): //Scroll Up
+                        case(0): //Scroll Up
                             if(messageStart == 0) break;
                             else this.messageStart--;
                             break;
-                        case (2):
+                        case (1):
                             if(messageStart + 1 == messages.size()) break;
                             else this.messageStart++;
                             break;
-                        case (3):
+                        case (2):
                             //Add a new private post between the two
                             Vector<String> recipient = new Vector<>();
                             recipient.add(friendUsername);
@@ -50,12 +50,12 @@ public class FriendConvo extends View{
 
                             msg.insertPrivateMsg(db.getNewMsg(), yourUsername, message, recipient);
                             break;
-                        case (4)://Delete a post
+                        case (3)://Delete a post
                             o.write("Insert MessageID you wish to delete: ");
                             int input = new Integer(scanner.next());
                             msg.dropPrivatePost(yourUsername,input );
                             break;
-                        case (5):
+                        case (4):
                             o.write("Insert name of group to invite "+friendUsername);
                             in = scanner.next();
                             if(!ChatGroups.exists(log, connection,in)){
@@ -71,7 +71,7 @@ public class FriendConvo extends View{
                                 o.write("Group Invite Sent");
                             }
                             break;
-                        case (6):
+                        case (5):
                             o.write("Pending ChatGroup Requests ");
                             Vector<ChatGroupInvite> cgr = db.chatGroupInvites.pendingInvites(yourUsername);
                             if(cgr.size() == 0){
@@ -95,7 +95,7 @@ public class FriendConvo extends View{
                             o.empty();
                             o.writeLine();
                             break;
-                        case (7):
+                        case (6):
                             o.write("Pending Friend Requests ");
                             Vector<String> fr = db.friendRequests.pendingRequests(yourUsername);
                             if(fr.size() == 0){
@@ -153,10 +153,9 @@ public class FriendConvo extends View{
         o.write("1: ScrollDown");
         o.write("2: Create New Post");
         o.write("3: Delete a Post");
-        o.write("4: See More Messages");
-        o.write("5: Send ChatGroup Invite to "+friend);
-        o.write("6: View my pending ChatGroup Invites");
-        o.write("7: View my pending MyCircle Invites");
+        o.write("4: Send ChatGroup Invite to "+friend);
+        o.write("5: View my pending ChatGroup Invites");
+        o.write("6: View my pending MyCircle Invites");
         o.empty(5);
     }
 
