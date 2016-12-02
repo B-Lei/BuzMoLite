@@ -34,9 +34,11 @@ public class FriendConvo extends View{
                         case(1): //Scroll Up
                             if(messageStart == 0) break;
                             else this.messageStart--;
+                            break;
                         case (2):
                             if(messageStart + 1 == messages.size()) break;
                             else this.messageStart++;
+                            break;
                         case (3):
                             //Add a new private post between the two
                             Vector<String> recipient = new Vector<>();
