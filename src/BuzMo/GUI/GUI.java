@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class GUI {
     public GUI(Logger log, Database database) {
         //new LoginWindow(log, database.getConnection());
-        new MainMenu(new Scanner(System.in), log, database.getConnection(), "JBieber@gmail.com");
+        new MainMenu(new Scanner(System.in).useDelimiter("\n"), log, database.getConnection(), "JBieber@gmail.com");
         log.Log("GUI Properly Loaded");
     }
 }
