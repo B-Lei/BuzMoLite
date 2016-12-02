@@ -16,8 +16,10 @@ public class DebugMode extends View {
     public DebugMode(Scanner scanner, Logger log, Connection connection, String yourUsername) {
         super(scanner, log, connection, yourUsername);
 
+        o.empty();
         writeOpeningText();
         handleInput();
+        o.empty();
 
         log.Log("GUI -- DebugMode properly loaded");
     }
@@ -44,36 +46,20 @@ public class DebugMode extends View {
             try {
                 System.out.println("input: "+input);
 
-                // Unconfirmed if this works or not
-                String inputNoWhitespace = input.replace(" ", "");
-                System.out.println("stripped input: "+input);
-
                 // 1(Day) 2(Month) 3(Year) 4(Hour) 5(MinuteAM/PM)
-                String[] tempTimeStamp = inputNoWhitespace.split("[.|:]");
-                for (int i=0; i<tempTimeStamp.length; i++) {
-                    System.out.println("Component found: "+tempTimeStamp[i]);
-                }
+                String[] tempTimeStamp = input.split("[.|:]");
                 Vector<String> timeStamp = new Vector(Arrays.asList(tempTimeStamp));
-
-                // Current Vector contents
-                for (int i=0; i<timeStamp.size()-1; i++) {
-                    System.out.println("Found vector component: "+timeStamp.elementAt(i));
-                }
 
                 // Fix minuteAMPM issue
                 String str = timeStamp.elementAt(4);
                 String ampm = str.substring(Math.max(str.length() - 2, 0));
-                str = str.substring(0, 1);
-
+                str = str.substring(0, 2);
                 timeStamp.setElementAt(str, 4);
-                System.out.println("New minute: "+timeStamp.elementAt(4));
-
                 timeStamp.add(ampm);
-                System.out.println("New ampm: "+timeStamp.elementAt(5));
 
                 // Print the Vector
-                for (int i=0; i<timeStamp.size()-1; i++) {
-                    System.out.println("Found final component: "+timeStamp.elementAt(i));
+                for (int i=0; i<timeStamp.size(); i++) {
+                    System.out.println("Found vector component: "+timeStamp.elementAt(i));
                 }
             } catch (Exception except) {
                 System.out.println("DebugMode -- EXCEPTION CAUGHT: " + except.getMessage());

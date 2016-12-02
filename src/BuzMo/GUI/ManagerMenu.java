@@ -20,6 +20,7 @@ public class ManagerMenu extends View {
     ManagerMenu(Scanner scanner, Logger log, Connection connection, String yourUsername) {
         super(scanner, log, connection, yourUsername);
 
+        o.empty();
         boolean isManager = checkManagerStatus();
         if (isManager) {
             writeMenu();
@@ -29,12 +30,14 @@ public class ManagerMenu extends View {
         else
             nonManagerMessage();
 
+        o.empty();
+
         log.Log("GUI -- ManagerMenu properly loaded");
     }
 
     // THIS IS INCOMPLETE! ADD SQL QUERIES TO CHECK IF MANAGER
     private boolean checkManagerStatus() {
-        return false;
+        return true;
     }
 
     private void writeMenu(){
@@ -58,6 +61,7 @@ public class ManagerMenu extends View {
 
     private void handleInput() {
         String in="";
+        in = scanner.next();
         if(in.length() == 1){
             Integer selection = new Integer(in);
             switch(selection){

@@ -15,11 +15,13 @@ public class NewChatGroup extends View {
 
     public NewChatGroup (Scanner scanner, Logger log, Connection connection, String yourUsername) {
         super(scanner, log, connection, yourUsername);
-        
+
+        o.empty();
         writeOpeningText();
         while(!handleInput()) {
             log.Log("Invalid ChatGroup creation");
         }
+        o.empty();
 
         log.Log("GUI -- NewChatGroup properly loaded");
     }
@@ -42,9 +44,9 @@ public class NewChatGroup extends View {
         String temp[] = newMembers.split("\\s*,\\s*");
         newMemberList.copyInto(temp);
 
-        //System.out.print("ENTER MESSAGE DURATION IN DAYS: ");
-        //String messageDurationString = scanner.next();
-        //int messageDuration = Integer.parseInt(messageDurationString);
+        System.out.print("ENTER MESSAGE DURATION IN DAYS: ");
+        String messageDurationString = scanner.next();
+        int messageDuration = Integer.parseInt(messageDurationString);
 
         try {    
             boolean exists = ChatGroups.exists(log, connection, chatGroupName);
