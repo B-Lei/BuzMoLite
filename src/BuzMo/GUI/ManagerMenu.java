@@ -61,6 +61,7 @@ public class ManagerMenu extends View {
 
     private void handleInput() {
         String in="";
+        in = scanner.next();
         if(in.length() == 1){
             Integer selection = new Integer(in);
             switch(selection){
