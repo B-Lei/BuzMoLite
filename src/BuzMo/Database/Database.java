@@ -34,6 +34,9 @@ public class Database {
     private OracleDataSource Osource = null;
     private MysqlDataSource Msource = null;
 
+    public FriendRequests friendRequests;
+    public GroupInvites groupInvites;
+
     public static Database getInstance(){
         return instance;
     }
@@ -106,6 +109,13 @@ public class Database {
             e.printStackTrace();
         }
 
+        try {
+            this.friendRequests = new FriendRequests(log, connection);
+            this.groupInvites = new GroupInvites(log, connection);
+
+        }catch(Exception e){
+            log.Log("Error trying initialize database handlers"+e.getMessage());
+        }
     }
 
     //Closes all connections

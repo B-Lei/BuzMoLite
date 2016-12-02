@@ -1,9 +1,6 @@
 package BuzMo.GUI;
 
-import BuzMo.Database.Database;
-import BuzMo.Database.DatabaseException;
-import BuzMo.Database.Message;
-import BuzMo.Database.MessageHandler;
+import BuzMo.Database.*;
 import BuzMo.Logger.Logger;
 
 import javax.xml.crypto.Data;
@@ -16,6 +13,7 @@ import java.util.Vector;
  * This is a ConvoView for personal MyCircle messages.
  */
 public class FriendConvo extends View{
+    Database db = Database.getInstance();
     String friend;
     Vector<Message> messages;
     MessageHandler msg;
@@ -42,7 +40,6 @@ public class FriendConvo extends View{
                     Integer response = new Integer(in);
                     switch (response) {
                         case (1): //Add a new private post between the two
-                            Database db = Database.getInstance();
                             Vector<String> recipient = new Vector<>();
                             recipient.add(friendUsername);
 
@@ -59,10 +56,28 @@ public class FriendConvo extends View{
                         case (3):
                             break;
                         case (4):
+                            o.write("Insert name of group to invite "+friendUsername);
+                            in = scanner.next();
+                            Vector<String> members = ChatGroupMembers.members(log,connection,in);
+                            if(!members.contains(yourUsername)){
+                                o.write("You must be a member of "+in+" to invite a new member");
+                            }
+                            else{
+                                db.groupInvites.newInvite(yourUsername,friendUsername,in);
+                                o.write("Group Invite Sent");
+                            }
+
                             break;
                         case (5):
+                            o.write("Pending MyCircle Requests ");
+
                             break;
                         case (6):
+                            o.write("Pending Friend Requests ");
+                            for(String f: db.friendRequests.pendingRequests(yourUsername)){
+                                
+                            }
+                            o.writeLine();
                             break;
                     }
                 }catch(Exception e){

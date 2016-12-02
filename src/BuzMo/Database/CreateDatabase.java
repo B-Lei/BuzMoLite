@@ -133,6 +133,28 @@ class CreateDatabase {
 
         writeTable("ChatGroupMembers", ChatGroupMembers);
 
+        String ChatGroupInvites = "CREATE TABLE ChatGroupInvites(" +
+                "group_name VARCHAR(20)," +
+                "host VARCHAR(20)," +
+                "guest VARCHAR(20)," +
+                "PRIMARY KEY(group_name, guest)" +
+                "FOREIGN KEY(group_name) REFERENCES Groups(group_name)" +
+                "FOREIGN KEY(host) REFERENCES Users(email_address)" +
+                "FOREIGN KEY(guest) REFERENCES Users(email_address))";
+
+
+        writeTable("ChatGroupInvites", ChatGroupInvites);
+
+
+        String MyCircleInvites = " CREATE TABLE MyCircleInvites(" +
+                "host VARCHAR(20)," +
+                "guest VARCHAR(20)," +
+                "PRIMARY KEY(host, guest)," +
+                "FOREIGN KEY(host) REFERENCES Users(email_address)," +
+                "FOREIGN KEY(guest) REFERENCES Users(email_address))";
+
+        writeTable("MyCircleInvites", MyCircleInvites);
+
     }
 
 

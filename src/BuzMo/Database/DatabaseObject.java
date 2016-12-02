@@ -3,6 +3,7 @@ package BuzMo.Database;
 import BuzMo.Logger.Logger;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -46,5 +47,20 @@ public class DatabaseObject {
         }
         return null;
     }
+
+    public static Statement runSQL(Logger log, Connection connection, String sql){
+        Statement st = null;
+        try{
+            st= connection.createStatement();
+
+        }catch (Exception e){
+            log.bSQL(sql);
+            log.Log("Error executing sql: "+e.getMessage());
+        }
+        return st;
+    }
+
+
+
 
 }

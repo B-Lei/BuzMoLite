@@ -17,3 +17,21 @@ public class GUI {
         log.Log("GUI Properly Loaded");
     }
 }
+
+
+/* Code for adding friend req
+                            o.write("Insert ChatGroup Name For "+friendUsername+":");
+                            String group = scanner.next();
+                            Vector<String> members = ChatGroupMembers.members(log, connection, group);
+                            if(!members.contains(yourUsername)){
+                                o.write("You must be a member of "+group+" to invite another member");
+                            }
+                            else if(members.contains(friendUsername)){
+                                o.write("You cannot invite a member to the group");
+                            }
+                            else{
+                                //Needs to be group not friend req
+                                db.friendRequests.newRequest(yourUsername,friendUsername);
+                                o.write("Friend Request Sent");
+                            }
+ */
