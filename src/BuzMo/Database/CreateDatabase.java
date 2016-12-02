@@ -88,7 +88,7 @@ class CreateDatabase {
                 "owner VARCHAR(20)," +
                 "message VARCHAR(1400)," +
                 "timestamp VARCHAR(30)," +
-                "is_public INTEGER DEFAULT 0," +
+                "is_public INTEGER," +
                 "PRIMARY KEY(message_id))";
                 //Check if message is public, topic words cannot be null
 
