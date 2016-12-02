@@ -36,6 +36,11 @@ public class MainMenu extends View {
         o.write("2: View Your Chatgroups"); //Handles all chatgroup operations
         o.write("3: View All Current Conversations");
         o.write("4: Create Conversation");
+        o.write("5: Create a ChatGroup");
+        o.write("6: Search All Messages");
+        o.write("7: Use Manager Functions");
+        o.write("8: Log in or Log out as Manager");
+        o.write("9: Edit BuzMo Time");
 
         String in="";
         while(!in.contentEquals("exit")){
@@ -55,7 +60,21 @@ public class MainMenu extends View {
                         break;
                     case 4:
                         break;
-
+                    // Create a ChatGroup
+                    case 5:
+                        break;
+                    // Search Messages
+                    case 6:
+                        break;
+                    // Manager Mode
+                    case 7:
+                        break;
+                    // Manager login/logout
+                    case 8:
+                        break;
+                    // Edit BuzMo Time
+                    case 9:
+                        break;
                 }
 
             }
