@@ -36,7 +36,7 @@ public class ManagerMenu extends View {
 
     // THIS IS INCOMPLETE! ADD SQL QUERIES TO CHECK IF MANAGER
     private boolean checkManagerStatus() {
-        return false;
+        return true;
     }
 
     private void writeMenu(){
