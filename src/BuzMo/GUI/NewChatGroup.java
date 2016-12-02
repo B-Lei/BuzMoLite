@@ -39,7 +39,7 @@ public class NewChatGroup extends View {
 
         System.out.print("ENTER A LIST OF NEW MEMBERS, SEPARATED BY COMMA: ");
         chatGroupName = scanner.next();
-        String temp[] = chatGroupName.split(",");
+        String temp[] = chatGroupName.split("\\s*,\\s*");
         newMemberList.copyInto(temp);
 
         System.out.print("ENTER MESSAGE DURATION IN DAYS: ");
