@@ -20,6 +20,7 @@ public class ManagerMenu extends View {
     ManagerMenu(Scanner scanner, Logger log, Connection connection, String yourUsername) {
         super(scanner, log, connection, yourUsername);
 
+        o.empty();
         boolean isManager = checkManagerStatus();
         if (isManager) {
             writeMenu();
@@ -29,7 +30,7 @@ public class ManagerMenu extends View {
         else
             nonManagerMessage();
 
-        o.empty(2);
+        o.empty();
 
         log.Log("GUI -- ManagerMenu properly loaded");
     }

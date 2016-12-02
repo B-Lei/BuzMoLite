@@ -15,12 +15,13 @@ public class NewChatGroup extends View {
 
     public NewChatGroup (Scanner scanner, Logger log, Connection connection, String yourUsername) {
         super(scanner, log, connection, yourUsername);
-        
+
+        o.empty();
         writeOpeningText();
         while(!handleInput()) {
             log.Log("Invalid ChatGroup creation");
         }
-        o.empty(2);
+        o.empty();
 
         log.Log("GUI -- NewChatGroup properly loaded");
     }

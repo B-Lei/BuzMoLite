@@ -14,12 +14,12 @@ public class ManagerToggle extends View {
     ManagerToggle(Scanner scanner, Logger log, Connection connection, String yourUsername) {
         super(scanner, log, connection, yourUsername);
 
+        o.empty();
         writeOpeningText();
         while(!handleInput()) {
             log.Log("Invalid ManagerToggle operation");
         }
-
-        o.empty(2);
+        o.empty();
 
         log.Log("GUI -- ManagerToggle properly loaded");
     }
