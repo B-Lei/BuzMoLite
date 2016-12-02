@@ -19,6 +19,8 @@ public class ManagerToggle extends View {
             log.Log("Invalid ManagerToggle operation");
         }
 
+        o.empty(2);
+
         log.Log("GUI -- ManagerToggle properly loaded");
     }
 

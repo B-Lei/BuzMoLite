@@ -29,6 +29,8 @@ public class ManagerMenu extends View {
         else
             nonManagerMessage();
 
+        o.empty(2);
+
         log.Log("GUI -- ManagerMenu properly loaded");
     }
 

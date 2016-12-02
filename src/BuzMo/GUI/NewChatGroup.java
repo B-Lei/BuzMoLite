@@ -20,6 +20,7 @@ public class NewChatGroup extends View {
         while(!handleInput()) {
             log.Log("Invalid ChatGroup creation");
         }
+        o.empty(2);
 
         log.Log("GUI -- NewChatGroup properly loaded");
     }
