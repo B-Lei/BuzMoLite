@@ -18,6 +18,7 @@ public class Message extends DatabaseObject{
         super(log, connection);
     }
 
+    
     public static boolean exists(Logger log, Connection connection, Integer messageID) throws DatabaseException {
         String sql = "";
 

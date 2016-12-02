@@ -39,6 +39,9 @@ public class GUIOutput {
         System.out.println(in);
     }
 
+    public void empty(){System.out.println();}
+
+
 
 
 
