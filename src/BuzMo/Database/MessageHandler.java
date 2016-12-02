@@ -231,7 +231,7 @@ public class MessageHandler extends DatabaseObject{
         //Get Users you have sent a message
         Vector<Message> response = new Vector<>();
 
-        String sql = "SELECT message_id, message FROM Messages NATURAL JOIN MessageReceivers" +
+        String sql = "SELECT message_id, message FROM Messages NATURAL JOIN MessageReceivers " +
                 "WHERE owner=" + addTicks(owner) + " AND (sender="+addTicks(other)+ " OR recipient="+addTicks(other)+")";
 
         try{
