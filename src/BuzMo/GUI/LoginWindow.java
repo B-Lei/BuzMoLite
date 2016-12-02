@@ -24,6 +24,8 @@ public class LoginWindow {
         this.log = log;
         this.connection = connection;
 
+        new ExistingConvos2(userInput,log, connection,"JeffBezos@yahoo.com");
+
         while(!display()){
             //Log each try
             log.Log("invalid login entry");
