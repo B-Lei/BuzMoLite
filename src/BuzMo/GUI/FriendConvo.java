@@ -37,7 +37,7 @@ public class FriendConvo extends View{
                             else this.messageStart--;
                             break;
                         case (1):
-                            if(messageStart + 1 == messages.size()) break;
+                            if(messageStart + 7 >= messages.size()) break;
                             else this.messageStart++;
                             break;
                         case (2):
@@ -139,7 +139,8 @@ public class FriendConvo extends View{
         o.empty();
         o.writeLine();
         o.setAlignment(GUIOutput.ALIGN.LEFT);
-        for(Message m: messages){
+        for(int j=this.messageStart; j<7; j++){
+            Message m = this.messages.get(j);
             o.write("ID: "+m.id );
             o.write(m.sender+ " to "+m.receiver+":"+m.message );
         }
