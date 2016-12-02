@@ -148,7 +148,7 @@ public class MessageHandler extends DatabaseObject{
                 int id2 = Database.getInstance().getNewMsg();
                 st = connection.createStatement();
                 sql = "INSERT INTO Messages(message_id, sender, owner,  message, timestamp, is_public) VALUES (";
-                sql += messageID + "," + addTicks(sender) + "," + addTicks(recipients.get(0)) + "," + addTicks(message) + "," + addTicks(timestamp) + "," + isPublic + ")";
+                sql += id2 + "," + addTicks(sender) + "," + addTicks(recipients.get(0)) + "," + addTicks(message) + "," + addTicks(timestamp) + "," + isPublic + ")";
                 st.execute(sql);
                 st.close();
                 log.gSQL(sql);
@@ -161,6 +161,9 @@ public class MessageHandler extends DatabaseObject{
                     log.Log("couldn't add msg recipients "+addRecipients.toString());
                     return addRecipients;
                 }
+
+                MessageTopicWords.insert(log, connection, id2, topicWords);
+
             }
 
 
