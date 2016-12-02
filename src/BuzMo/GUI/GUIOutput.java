@@ -40,6 +40,10 @@ public class GUIOutput {
     }
 
     public void empty(){System.out.println();}
+    public void empty(int lines){
+        for(int i=0; i< lines; i++)
+            System.out.println();
+    }
 
 
 

@@ -58,6 +58,10 @@ public class FriendConvo extends View{
                         case (4):
                             o.write("Insert name of group to invite "+friendUsername);
                             in = scanner.next();
+                            if(!ChatGroups.exists(log, connection,in)){
+                                o.write("Chat Group Does Not Exist");
+                                break;
+                            }
                             Vector<String> members = ChatGroupMembers.members(log,connection,in);
                             if(!members.contains(yourUsername)){
                                 o.write("You must be a member of "+in+" to invite a new member");
@@ -75,8 +79,9 @@ public class FriendConvo extends View{
                         case (6):
                             o.write("Pending Friend Requests ");
                             for(String f: db.friendRequests.pendingRequests(yourUsername)){
-                                
+
                             }
+                            o.empty();
                             o.writeLine();
                             break;
                     }
@@ -88,6 +93,7 @@ public class FriendConvo extends View{
     }
 
     private void display(){
+        o.empty(5);
         loadPosts();
         o.setAlignment(GUIOutput.ALIGN.CENTER);
         o.writeLine();
@@ -109,6 +115,7 @@ public class FriendConvo extends View{
         o.write("4: Send ChatGroup Invite to "+friend);
         o.write("5: View my pending ChatGroup Invites");
         o.write("6: View my pending MyCircle Invites");
+        o.empty(5);
     }
 
     private void loadPosts(){
