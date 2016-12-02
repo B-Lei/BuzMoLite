@@ -55,6 +55,11 @@ public class DebugMode extends View {
                 Vector<String> timeStamp = new Vector<>();
                 timeStamp.copyInto(tempTimeStamp);
 
+                // Current Vector contents
+                for (int i=0; i<timeStamp.size()-1; i++) {
+                    System.out.println("Found vector component: "+timeStamp.elementAt(i));
+                }
+
                 // Fix minuteAMPM issue
                 String str = timeStamp.elementAt(4);
                 String ampm = str.substring(Math.max(str.length() - 2, 0));
@@ -66,6 +71,7 @@ public class DebugMode extends View {
                 timeStamp.add(ampm);
                 System.out.println("New ampm: "+timeStamp.elementAt(5));
 
+                // Print the Vector
                 for (int i=0; i<timeStamp.size()-1; i++) {
                     System.out.println("Found final component: "+timeStamp.elementAt(i));
                 }
