@@ -1,5 +1,7 @@
 package BuzMo.GUI;
 
+import BuzMo.Database.ChatGroupInvites;
+import BuzMo.Database.ChatGroups;
 import BuzMo.Logger.Logger;
 import javax.swing.*;
 import java.awt.*;
@@ -42,6 +44,8 @@ public class MainMenu extends View {
         o.write("7: Use Manager Functions");
         o.write("8: Log in or Log out as Manager");
         o.write("9: Edit BuzMo Time");
+        o.write("10: Find all private messages from someone");
+        o.write("11: Send a ChatGroup invitation from someone");
     }
 
     public void takeInput() {
@@ -84,6 +88,40 @@ public class MainMenu extends View {
                     // Edit BuzMo Time
                     case 9:
                         new DebugMode(scanner, log, connection, yourUsername);
+                        break;
+                    // Find all PMs for an email -- NOT IMPLEMENTED
+                    case 10:
+                        o.write("Enter an email:");
+                        String input = scanner.next();
+
+                        break;
+                    // Send a ChatGroup invite
+                    case 11:
+                        o.write("Enter a user email:");
+                        String email = scanner.next();
+                        o.write("Enter a GroupChat name:");
+                        String groupname = scanner.next();
+                        try {
+                            ChatGroups chatGroups = new ChatGroups(log, connection);
+                            ChatGroupInvites invites = new ChatGroupInvites(log, connection, chatGroups);
+                            invites.newInvite(yourUsername, email, groupname);
+                            System.out.println("Invite successful.");
+                        } catch(Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                        break;
+                    // Change duration of ChatGroup messages
+                    case 12:
+                        o.write("Enter a GroupChat name:");
+                        String name = scanner.next();
+                        o.write("Enter a duration:");
+                        int duration = Integer.parseInt(scanner.next());
+                        try {
+                            ChatGroups.changeDuration(log, connection, name, duration);
+                            System.out.println("Invite successful.");
+                        } catch(Exception e) {
+                            System.out.println(e.getMessage());
+                        }
                         break;
                 }
 

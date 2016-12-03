@@ -143,5 +143,29 @@ public class ChatGroups extends DatabaseObject{
         runSQL(log, connection, sql);
     }
 
+    public static Insert changeDuration(Logger log, Connection connection, String name, int duration) throws DatabaseException{
+        if(!ChatGroups.exists(log, connection, name)){
+            return Insert.NOEXIST_USR;
+        }
+
+        Statement st;
+        try{
+            st = connection.createStatement();
+        }catch(Exception e ){
+            throw new DatabaseException(e);
+        }
+
+        String sql = "UPDATE chatgroups SET duration="+duration+" WHERE group_name="+name;
+        try {
+            st.execute(sql);
+            log.gSQL(sql);
+            st.close();
+        } catch (SQLException e) {
+            log.bSQL(sql);
+            throw new DatabaseException(e);
+        }
+
+        return Insert.SUCCESS;
+    }
 
 }

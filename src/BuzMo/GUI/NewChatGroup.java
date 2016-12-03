@@ -58,7 +58,10 @@ public class NewChatGroup extends View {
 
         System.out.print("ENTER MESSAGE DURATION IN DAYS: ");
         String messageDurationString = scanner.next();
-        int messageDuration = Integer.parseInt(messageDurationString);
+        int messageDuration;
+        if (messageDurationString.equals(""))
+            messageDuration = 7;
+        else messageDuration = Integer.parseInt(messageDurationString);
 
         try {    
             boolean exists = ChatGroups.exists(log, connection, chatGroupName);
