@@ -76,6 +76,7 @@ public class MainMenu extends View {
                         break;
                     // Search Messages
                     case 6:
+                        new BrowseMessages(scanner, log, connection, yourUsername);
                         break;
                     // Manager Mode
                     case 7:
